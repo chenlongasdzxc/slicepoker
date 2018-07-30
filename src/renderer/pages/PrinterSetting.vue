@@ -29,7 +29,8 @@
                     </v-layout>
                     <v-layout row wrap class="pa-3">
                         <v-flex class="item">
-                           <v-btn color="yellow" @click.native="printPage" :disabled="printerName===''||printerTemplate===''">打印测试</v-btn>
+                           <v-btn color="yellow" @click.native="printPage(true)" :disabled="printerTemplate===''">模板预览</v-btn>
+                           <v-btn color="yellow" @click.native="printPage(false)" :disabled="printerName===''||printerTemplate===''">打印测试</v-btn>
                            <v-btn color="blue" @click.native="save" :disabled="printerName===''||printerTemplate===''">保存配置</v-btn>
                         </v-flex>
                     </v-layout>
@@ -80,7 +81,7 @@
                 console.log(event);
                 console.log(arg);
                 this.printers = arg;
-            },printPage(){
+            },printPage(preview){
                 const data={
                     specDtex:1.33,
                     specMm:51,
@@ -88,6 +89,7 @@
                     weight:27,
                     lotNo:1234,
                     baleNo:12,
+                    preview:preview,
                     moistureRegain:28.1,
                     printerName:this.printerName,
                     backPath:'/printer',
