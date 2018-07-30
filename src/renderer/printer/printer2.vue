@@ -3,32 +3,32 @@
 
         <div id="border" class="border" style="top:2mm;left: 2mm;height: 96mm;width: 146mm;"></div>
 
-        <img style="width: 42mm;height: 42mm;position: fixed;left: 102mm;top:24mm;border: 1px solid black"
+        <img style="width: 44mm;height: 44mm;position: fixed;left: 101mm;top:30mm;border: 1px solid black"
              :src="moistureRegain.url" alt="">
 
         <div id="text03" class="cn" style="left: 6mm;top:10mm">规格</div>
         <div id="text09" class="en" style="left: 21mm;top:10mm">Spec:</div>
-        <div id="data_specDtex" class="data" style="left: 38mm;top:10mm;width: 25mm">{{data.specDtex}}</div>
-        <div id="text15" class="en" style="left: 64mm;top:10mm">dtex</div>
-            <div id="data_specMm" class="data" style="left: 77mm;top:10mm;width: 25mm">{{data.specMm}}</div>
-        <div id="text16" class="en" style="left: 105mm;top:10mm">mm</div>
+        <div id="data_specDtex" class="data" style="left: 44mm;top:10mm;width: 28mm">{{data.specDtex}}</div>
+        <div id="text15" class="en" style="left: 74mm;top:10mm">dtex</div>
+            <div id="data_specMm" class="data" style="left: 94mm;top:10mm;width: 28mm">{{data.specMm}}</div>
+        <div id="text16" class="en" style="left: 124mm;top:10mm">mm</div>
 
         <div id="text04" class="cn" style="left: 6mm;top:24mm">等级</div>
         <div id="text10" class="en" style="left: 21mm;top:24mm">Grade:</div>
-        <div id="data_grade" class="data" style="left: 43mm;top:24mm;width: 50mm">{{data.grade}}</div>
+        <div id="data_grade" class="data" style="left: 48mm;top:24mm;width: 45mm">{{data.grade}}</div>
 
         <div id="text05" class="cn" style="left: 6mm;top:38mm">净重</div>
         <div id="text11" class="en" style="left:21mm;top:38mm">Weight:</div>
-        <div id="data_weight" class="data" style="left: 43mm;top:38mm;width: 50mm">{{data.weight}}</div>
+        <div id="data_weight" class="data" style="left: 48mm;top:38mm;width: 45mm">{{data.weight}}</div>
         <div id="text17" class="en" style="left: 93mm;top:38mm">kg</div>
 
         <div id="text06" class="cn" style="left: 6mm;top:52mm">批号</div>
         <div id="text12" class="en" style="left: 21mm;top:52mm">Lot No.:</div>
-        <div id="data_lotNo" class="data" style="left: 43mm;top:52mm;width: 50mm">{{data.lotNo}}</div>
+        <div id="data_lotNo" class="data" style="left: 48mm;top:52mm;width: 45mm">{{data.lotNo}}</div>
 
         <div id="text07" class="cn" style="left: 6mm;top:66mm">包号</div>
         <div id="text13" class="en" style="left: 21mm;top:66mm">Bale No.:</div>
-        <div id="data_baleNo" class="data" style="left: 48mm;top:66mm;width: 50mm">{{data.baleNo}}</div>
+        <div id="data_baleNo" class="data" style="left: 48mm;top:66mm;width: 45mm">{{data.baleNo}}</div>
 
         <div id="text08" class="cn" style="left: 6mm;top:80mm">执行标准</div>
         <div id="text14" class="en" style="left: 35mm;top:80mm">Executive Standard:GB/T14463-2008</div>

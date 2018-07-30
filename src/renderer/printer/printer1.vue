@@ -68,7 +68,6 @@
                 },
                 backPath:'',
                 printerName: '',
-
             }
         },
         created() {
