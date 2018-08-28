@@ -57,13 +57,15 @@
         name: 'App',
         components: {TitleBtn},
         data: () => ({
-            drawer: false,
+            drawer: true,
             items: [
                 {icon: 'build', title: '称重机配置', to: '/setting'},
                 {icon: 'build', title: '回潮仪配置', to: '/rtu'},
                 {icon: 'build', title: '打印机配置', to: '/printer'},
-                {icon: 'memory', title: '生成管理', to: '/product'},
+                {icon: 'build', title: '包号规则配置', to: '/charSetting'},
+                {icon: 'memory', title: '生产管理', to: '/product'},
                 // {icon: 'assessment', title: '数据查看', to: '/inspire'},
+                // {icon: 'bubble_chart', title: '关于', to: '/inspire'},
                 {icon: 'bubble_chart', title: '关于', to: '/inspire'}
             ],
             title: '工控协同打印系统'
@@ -72,6 +74,6 @@
 </script>
 
 <style>
-    @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons');
+    @import url('/static/css/font.css');
     /* Global CSS */
 </style>

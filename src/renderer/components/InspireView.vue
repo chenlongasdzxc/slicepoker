@@ -7,6 +7,7 @@
         <footer>
           <small>
             <em>&mdash;四川新迎顺</em>
+            <em>2018年8月1日10:08:39</em>
           </small>
         </footer>
       </blockquote>

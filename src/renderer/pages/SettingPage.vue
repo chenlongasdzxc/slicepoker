@@ -170,10 +170,11 @@
                 const port = new SerialPort(that.form.data.com, that.form.data);
                 this.test.serialPort = port;
                 port.on('data', this.testEvent);
-                this.testSend('i2');
+                this.testSend('I2');
             },
             testSend(str) {
                 str = str.toUpperCase();
+                str = str + String.fromCharCode(0x20);
                 str = str + String.fromCharCode(0x0D);
                 str = str + String.fromCharCode(0x0A);
                 this.test.serialPort.write(str);

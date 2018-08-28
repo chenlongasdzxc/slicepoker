@@ -38,6 +38,10 @@ export default new Router({
                     path: '/rtu',
                     name: 'rtu',
                     component: require('@/pages/RtuSetting').default
+                },{
+                    path: '/charSetting',
+                    name: 'charSetting',
+                    component: require('@/pages/CharSetting').default
                 },
             ]
         },

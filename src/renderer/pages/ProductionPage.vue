@@ -69,12 +69,9 @@
                                     <v-container>
                                         <v-data-table :headers="table.headers" :items="table.data" hide-actions>
                                             <template slot="items" slot-scope="props">
-                                                <td>{{ props.item.name }}</td>
-                                                <td class="text-xs-right">{{ props.item.calories }}</td>
-                                                <td class="text-xs-right">{{ props.item.fat }}</td>
-                                                <td class="text-xs-right">{{ props.item.carbs }}</td>
-                                                <td class="text-xs-right">{{ props.item.protein }}</td>
-                                                <td class="text-xs-right">{{ props.item.iron }}</td>
+                                                <td>{{ props.item.baleNo }}</td>
+                                                <td>{{ props.item.weight }}</td>
+                                                <td>{{ props.item.moistureRegain }}</td>
                                             </template>
                                         </v-data-table>
                                     </v-container>
@@ -82,81 +79,13 @@
                             </v-flex>
                         </v-layout>
                     </v-flex>
-
                     <v-flex xs12 sm6 md4 lg3 xl2>
-                        <v-card>
-                            <v-card-title>设备状态</v-card-title>
-                            <v-divider></v-divider>
-                            <v-container>
-                                <v-layout wrap column>
-                                    <v-flex
-                                            v-for="item in drivers"
-                                            :key="item.name"
-                                    >
-                                        <v-card>
-                                            <v-card-title><h4>{{ item.name }}</h4></v-card-title>
-                                            <v-divider></v-divider>
-                                            <v-list dense>
-                                                <v-list-tile>
-                                                    <v-list-tile-content>状态:</v-list-tile-content>
-                                                    <v-list-tile-content v-if="item.open" class="align-end">在线
-                                                    </v-list-tile-content>
-                                                    <v-list-tile-content v-if="!item.open" class="align-end">不在线
-                                                    </v-list-tile-content>
-                                                </v-list-tile>
-                                                <v-list-tile>
-                                                    <v-list-tile-content>实时数据:</v-list-tile-content>
-                                                    <v-list-tile-content class="align-end">{{ item.rep }}
-                                                    </v-list-tile-content>
-                                                </v-list-tile>
-                                            </v-list>
-                                        </v-card>
-                                    </v-flex>
-                                </v-layout>
-                            </v-container>
-                        </v-card>
+                        <DeviceStatus :drivers="drivers"/>
                     </v-flex>
                 </v-layout>
                 <v-layout row wrap v-if="!checkDevice()">
                     <v-flex>
-                        <v-card>
-                            <v-card-title>物理设备状态</v-card-title>
-                            <v-divider></v-divider>
-                            <v-container>
-                                <v-layout wrap column>
-                                    <v-flex
-                                            v-for="item in drivers"
-                                            :key="item.name"
-                                    >
-                                        <v-card>
-                                            <v-card-title><h4>{{ item.name }}</h4></v-card-title>
-                                            <v-divider></v-divider>
-                                            <v-list dense>
-                                                <v-list-tile>
-                                                    <v-list-tile-content>状态:</v-list-tile-content>
-                                                    <v-list-tile-content v-if="item.hasBeenSet" class="align-end">已经配置
-                                                    </v-list-tile-content>
-                                                    <v-list-tile-content v-if="!item.hasBeenSet" class="align-end">没有配置
-                                                    </v-list-tile-content>
-                                                </v-list-tile>
-                                                <v-list-tile v-if="item.hasBeenSet && item.name==='打印机'">
-                                                    <v-list-tile-content>设备名称:</v-list-tile-content>
-                                                    <v-list-tile-content v-if="item.hasBeenSet" class="align-end">
-                                                        {{item.data.name}}
-                                                    </v-list-tile-content>
-                                                </v-list-tile>
-                                                <v-list-tile v-if="item.hasBeenSet && item.name!=='打印机'">
-                                                    <v-list-tile-content>连接端口:</v-list-tile-content>
-                                                    <v-list-tile-content v-if="item.hasBeenSet" class="align-end">
-                                                        {{item.data.com}}
-                                                    </v-list-tile-content>
-                                                </v-list-tile>
-                                            </v-list>
-                                        </v-card>
-                                    </v-flex>
-                                </v-layout>
-                            </v-container>
-                        </v-card>
+                        <DeviceStatus :drivers="drivers"/>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -164,14 +93,12 @@
     </v-layout>
 </template>
 <script>
-    // import ModbusRTU from "modbus-serial";
-    // import SerialPort from "serialport";
 
-    var ModbusRTU ={};
-    var SerialPort ={};
+    import DeviceStatus from "../components/DeviceStatus";
 
     export default {
         name: 'production',
+        components: {DeviceStatus},
         data() {
             return {
                 runtime: false,
@@ -189,7 +116,8 @@
                     ]
                 },
                 currentData: {
-
+                    data: {},
+                    nextBaleNo: null,
                 },
                 printerTemplates: [
                     {name: '模板一', path: '/printer/p1'},
@@ -223,7 +151,27 @@
             start() {
                 if (this.$refs.form.validate()) {
                     this.runtime = true;
+                    this.currentData.nextBaleNo = parseInt(this.form.data.baleNo);
+                    this.newData();
                 }
+            },
+            newData() {
+                const data = JSON.parse(JSON.stringify(this.form.data));
+                data.baleNo = this.currentData.nextBaleNo;
+                this.currentData.nextBaleNo = this.currentData.nextBaleNo + 1;
+                data.moistureRegain = '等待数据';
+                data.weight = '等待数据';
+                this.currentData.data = JSON.parse(JSON.stringify(data));
+                this.table.data.push(this.currentData.data);
+                setTimeout(this.getWeight,1000);
+            },
+            getWeight(){
+                this.currentData.data.weight = 12.2;
+                setTimeout(this.getMoistureRegain,1000);
+            },
+            getMoistureRegain(){
+                this.currentData.data.moistureRegain = 28.1;
+                setTimeout(this.newData,1000);
             },
             stop() {
                 this.runtime = false;
@@ -289,10 +237,8 @@
                 }
                 url = `${url}?${params}`;
                 url = url.substr(0, url.length - 1);
-                console.log(url);
                 // window.open(url);
                 const pushData = {path: this.printerTemplate, query: data};
-                console.log(pushData)
                 this.$router.push(pushData)
                 // ipcRenderer.send('printPage',this.printerName);
             }
@@ -300,6 +246,3 @@
 
     }
 </script>
-<style scoped>
-
-</style>

@@ -5,7 +5,7 @@
 
         <div id="text01" class="title" style="left: 6mm;top:12mm;width: 80mm">VISCOSE</div>
         <div id="text02" class="title" style="left: 6mm;top:28mm;width: 80mm">STAPLE</div>
-        <div id="text18" class="title" style="left: 6mm;top:42mm;width: 80mm">FIBER</div>
+        <div id="text18" class="title" style="left: 6mm;top:42mm;width: 80mm">FIBRE</div>
 
 
         <img style="width: 52mm;height: 52mm;position: fixed;left: 88mm;top:10mm;border: 1px solid black"
