@@ -7,7 +7,7 @@
         <div id="text02" class="title" style="left: 1mm;top:26mm;width: 126mm">涡流纺专用纤维素纤维</div>
 
 
-        <img style="width: 40mm;height: 40mm;position: fixed;left: 87mm;top:95mm;"
+        <img style="width: 36mm;height: 36mm;position: fixed;left: 91mm;top:99mm;"
              :src="moistureRegain.url" alt="">
 
         <div id="text03" class="cn" style="left: 3mm;top:calc( 34mm + 14mm*1 )">规格</div>

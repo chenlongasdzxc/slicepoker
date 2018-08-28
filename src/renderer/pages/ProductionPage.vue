@@ -163,15 +163,15 @@
                 data.weight = '等待数据';
                 this.currentData.data = JSON.parse(JSON.stringify(data));
                 this.table.data.push(this.currentData.data);
-                setTimeout(this.getWeight,1000);
+                setTimeout(this.getWeight, 1000);
             },
-            getWeight(){
+            getWeight() {
                 this.currentData.data.weight = 12.2;
-                setTimeout(this.getMoistureRegain,1000);
+                setTimeout(this.getMoistureRegain, 1000);
             },
-            getMoistureRegain(){
+            getMoistureRegain() {
                 this.currentData.data.moistureRegain = 28.1;
-                setTimeout(this.newData,1000);
+                setTimeout(this.newData, 1000);
             },
             stop() {
                 this.runtime = false;
