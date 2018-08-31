@@ -113,10 +113,12 @@
                     stopList: [1, 2],//停止位
                 },
                 test: {
+                    send:'',
                     serialPort: null,
                     rus: '',
                     pack: '',
                     time: '',
+                    readTemp:[],
                 },
             }
         },
@@ -136,7 +138,7 @@
             },
             init() {
                 this.initComList();
-                const rtu = localStorage.getItem("weighMachine");
+                const rtu = localStorage.getItem("rtu");
                 if (rtu) {
                     this.form.data = JSON.parse(rtu);
                 }
@@ -156,23 +158,42 @@
             testEvent(data, type) {
                 /**
                  *
+                 *
+                 1 3 24 48 56 45 51 49
+                 45 50 48 49 56 49 56 58 53 49 48 54 51 55 49 49 46 54 48 231 130
                  *01 03 18 30 38 2D 33 31 2D 32 30 31 38 31 34 3A 31 38 30 33 38 30 31 32 2E 36 39 88 5B
+                 *
+                 * 01 03 18 30 38 2D 33 31 2D 32 30 31 38
+                 * 31 34 3A 31 38 30 33 38 30 31 32 2E 36 39 88 5B
                  08-31-201814:18038012.69圼
-                 * @type {string}
                  */
+
+                const _data = [];
+                for (let i = 0; i < this.test.readTemp.length; i++) {
+                    _data.push(this.test.readTemp[i]);
+                }
+
+                for (let i = 0; i < data.length; i++) {
+                    _data.push(data[i]);
+                }
+
+
                 function getText(data, start, end) {
-                    var str = '';
+                    let str = '';
                     for (let i = start; i < end; i++) {
-                        var c = String.fromCharCode(data[i]);
+                        const c = String.fromCharCode(data[i]);
                         str = str + c;
                     }
                     return str;
                 }
 
-                if (data.length >= 29) {
-                    this.test.rus = getText(data, 22, 27);
-                    this.test.pack = getText(data, 18, 22);
-                    this.test.time = moment(getText(data, 3, 18), 'MM-DD-YYYYHH:mm').format('YYYY-MM-DD HH:mm');
+                if (_data.length >= 29) {
+                    this.test.rus = getText(_data, 22, 27);
+                    this.test.pack = getText(_data, 18, 22);
+                    this.test.time = moment(getText(_data, 3, 18), 'MM-DD-YYYYHH:mm').format('YYYY-MM-DD HH:mm');
+                    this.test.readTemp = [];
+                }else{
+                    this.test.readTemp = _data;
                 }
 
             },
@@ -185,18 +206,9 @@
                 this.testSend('I2');
             },
             testSend(str) {
-                str = '';
-                str = str + String.fromCharCode(0x01);
-                str = str + String.fromCharCode(0x03);
-                str = str + String.fromCharCode(0x00);
-                str = str + String.fromCharCode(0x00);
-                str = str + String.fromCharCode(0x00);
-                str = str + String.fromCharCode(0x0C);
-                str = str + String.fromCharCode(0x45);
-                str = str + String.fromCharCode(0xCF);
-                console.log(str);
-                this.test.serialPort.write([0x01,0x03,0x00,0x00,0x00
-                    ,0x0C,0x45,0xCF]);
+                const data = [0x01,0x03,0x00,0x00,0x00,0x0C,0x45,0xCF];
+                this.test.send = data.join(' ');
+                this.test.serialPort.write(data);
             }
         },
     }

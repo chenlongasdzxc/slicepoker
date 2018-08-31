@@ -76,6 +76,13 @@
                         </v-list-tile>
                     </v-list>
                 </v-card>
+
+                <v-card>
+                    <div>
+                        <h2>元数据</h2>
+                        <p>{{test.resData}}</p>
+                    </div>
+                </v-card>
             </v-flex>
         </v-layout>
     </v-container>
@@ -113,6 +120,7 @@
                 },
                 test: {
                     serialPort: null,
+                    resData:'',
                     res:
                         {
                             weight: 0,//重量weight
@@ -120,6 +128,7 @@
                             stable: true,//稳定stable
                             out: false,//超过测量范围
                         },
+                    last:[],
                 },
             }
         },
@@ -160,64 +169,82 @@
              * @param type
              */
             testEvent(data, type) {
-                var str = '';
-                const line = [];
-                let line_item = [];
-                let _index = 0;
-                for (let i = 0; i < data.length; i++) {
-                    if (data[i] === 0x02) {
-                        _index = i;
-                        break;
+                try {
+                    const _data = [];
+                    for (let i = 0; i < this.test.last.length; i++) {
+                        _data.push(this.test.last[i]);
                     }
-                    // var c = String.fromCharCode(data[i]);
-                    // str = str + c;
-                }
 
-                let len = 0;
-                for (let i = _index; i < data.length; i++) {
-                    len++;
-                    line_item.push(data[i]);
-                    if (len === 17) {
-                        len = 0;
-                        line.push(JSON.parse(JSON.stringify(line_item)));
-                        line_item = [];
+                    for (let i = 0; i < data.length; i++) {
+                        _data.push(data[i]);
                     }
-                }
 
-                const lineData = [];
-                for (let i = 0; i < line.length; i++) {
-                    lineData.push(this.parseData(line[i]));
-                }
+                    this.test.resData = _data.join(" ");
 
 
-                let res;
-                for (let i = 0; i < lineData.length; i++) {
-                    const item = lineData[i];
-                    if (res) {
-                        if (!item.out) {
-                            if (item.weight !== -.5) {
-                                if(res.weight ===.5) {
-                                    res = item;
-                                }
-                                if(item.stable){
-                                    res = item;
+                    let _index = 0;
+                    for (let i = 0; i < _data.length; i++) {
+                        if (data[i] === 0x02) {
+                            _index = i;
+                            break;
+                        }
+                        // var c = String.fromCharCode(data[i]);
+                        // str = str + c;
+                    }
+
+                    let len = 0;
+
+                    const line = [];
+                    let line_item = [];
+                    for (let i = _index; i < _data.length; i++) {
+                        len++;
+                        line_item.push(data[i]);
+                        if (len === 17) {
+                            len = 0;
+                            line.push(line_item);
+                            line_item = [];
+                        }
+                    }
+
+                    this.test.last = line_item;
+
+                    const lineData = [];
+                    for (let i = 0; i < line.length; i++) {
+                        lineData.push(this.parseData(line[i]));
+                    }
+
+
+                    let res;
+                    for (let i = 0; i < lineData.length; i++) {
+                        const item = lineData[i];
+                        if (res) {
+                            if (!item.out) {
+                                if (item.weight !== -.5) {
+                                    if (res.weight === .5) {
+                                        res = item;
+                                    }
+                                    if (item.stable) {
+                                        res = item;
+                                    }
                                 }
                             }
+                        } else {
+                            res = item;
                         }
-                    } else {
-                        res = item;
                     }
+
+
+                    this.test.res = res;
+                    debugger;
+
+                    // console.log(str);  [14] ./node_modules/electron-devtools-installer/dist/utils.js 1.93 kB {0} [built]
+                    // this.test.rus = str;
+                    // if (type) {
+                    //     this.test[type] = str;
+                    // }
+                }catch (e) {
+                    alert(e);
                 }
-
-
-                this.test.res = JSON.parse(JSON.stringify(res));
-                debugger;
-
-                // console.log(str);  [14] ./node_modules/electron-devtools-installer/dist/utils.js 1.93 kB {0} [built]
-                // this.test.rus = str;
-                // if (type) {
-                //     this.test[type] = str;
-                // }
             },
 
             parseData(data) {
@@ -233,49 +260,16 @@
 
                     let staticA = data[1];
                     const sa = staticA % 8;
-                    let decimalPoint;
-
-                    switch (sa) {
-                        case 0:
-                            decimalPoint = 100;
-                            break;
-                        case 1:
-                            decimalPoint = 10;
-                            break;
-                        case 2:
-                            decimalPoint = 1;
-                            break;
-                        case 3:
-                            decimalPoint = .1;
-                            break;
-                        case 4:
-                            decimalPoint = .01;
-                            break;
-                        case 5:
-                            decimalPoint = .001;
-                            break;
-                        case 6:
-                            decimalPoint = .0001;
-                            break;
-                        case 7:
-                            decimalPoint = .00001;
-                            break;
-                        default:
-                            break;
-                    }
-
+                    let decimalPoint = Math.pow(10,2-sa);
 
                     let staticB = data[2];
+
                     const a4 = (staticB >> 4) % 2;// 0 --> lb 1 --> kg
                     if (a4 === 0) {
                         decimalPoint = decimalPoint * 0.4535924;
                     }
                     const a3 = (staticB >> 3) % 2;// 0 --> 稳定 1 --> 动态
-                    if (a3 === 0) {
-                        rest.stable = true;
-                    } else {
-                        rest.stable = false;
-                    }
+                    rest.stable = a3 === 0;
                     const a2 = (staticB >> 2) % 2;// 0 --> 正常 1 --> 超过测量范围
                     if (a2 === 1) {
                         rest.out = true;
@@ -302,6 +296,9 @@
                     rest.tare = pw;
 
                     return rest;
+                }
+                else{
+                    this.last = data;
                 }
             },
 
