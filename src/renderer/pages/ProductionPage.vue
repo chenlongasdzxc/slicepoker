@@ -67,11 +67,14 @@
                                     <v-card-title>数据回显</v-card-title>
                                     <v-divider></v-divider>
                                     <v-container>
-                                        <v-data-table :headers="table.headers" :items="table.data" hide-actions>
+                                        <v-data-table :headers="table.headers" :items="table.data" >
+                                            <template slot="no-data">
+                                                暂无数据！
+                                            </template>
                                             <template slot="items" slot-scope="props">
                                                 <td>{{ props.item.baleNo }}</td>
-                                                <td>{{ props.item.weight }}</td>
                                                 <td>{{ props.item.moistureRegain }}</td>
+                                                <td>{{ props.item.weight }}</td>
                                             </template>
                                         </v-data-table>
                                     </v-container>
@@ -95,6 +98,8 @@
 <script>
 
     import DeviceStatus from "../components/DeviceStatus";
+    import ModbusRTU from "modbus-serial";
+    import SerialPort from "serialport";
 
     export default {
         name: 'production',
@@ -111,8 +116,8 @@
                     data: [],
                     headers: [
                         {text: '包号', value: 'pn'},
-                        {text: '净重', value: 'wg'},
                         {text: '回潮率', value: 'hc'},
+                        {text: '净重', value: 'wg'},
                     ]
                 },
                 currentData: {
@@ -138,13 +143,58 @@
                     requireRules: [
                         v => !!v || '必填'
                     ]
-                }
+                },
+                rtuClient:null
             }
         },
-        mounted() {
+        beforeRouteLeave(to, from, next){
+            try {
+                this.testStop();
+                if (this.rtuClient) {
+                    if (this.rtuClient.isOpen) {
+                        this.rtuClient.close();
+                    }
+                }
+            }catch (e) {
 
+            }
+            next();
+        },
+        mounted() {
+            this.connect();
         },
         methods: {
+            testStop() {
+                this.test.serialPort.close();
+                this.test.rus = '';
+            },
+            testEvent(data, type) {
+                var str = '';
+                for (let i = 0; i < data.length; i++) {
+                    var c = String.fromCharCode(data[i]);
+                    str = str + c;
+                }
+                console.log(str);
+                this.test.rus = str;
+                if (type) {
+                    this.test[type] = str;
+                }
+            },
+            testClient() {
+                const that = this;
+                const SerialPort = require('serialport');
+                const port = new SerialPort(that.form.data.com, that.form.data);
+                this.test.serialPort = port;
+                port.on('data', this.testEvent);
+                this.testSend('I2');
+            },
+            testSend(str) {
+                str = str.toUpperCase();
+                str = str + String.fromCharCode(0x20);
+                str = str + String.fromCharCode(0x0D);
+                str = str + String.fromCharCode(0x0A);
+                this.test.serialPort.write(str);
+            },
             initPage() {
 
             },
@@ -163,18 +213,56 @@
                 data.weight = '等待数据';
                 this.currentData.data = JSON.parse(JSON.stringify(data));
                 this.table.data.push(this.currentData.data);
-                setTimeout(this.getWeight, 1000);
+                setTimeout(this.getMoistureRegain, 1000);
             },
             getWeight() {
                 this.currentData.data.weight = 12.2;
-                setTimeout(this.getMoistureRegain, 1000);
+                setTimeout(this.newData, 1000);
             },
             getMoistureRegain() {
                 this.currentData.data.moistureRegain = 28.1;
-                setTimeout(this.newData, 1000);
+                setTimeout(this.getWeight, 1000);
+            },
+            /**
+             * 读取数据
+             */
+            readHoldingRegisters() {
+                const that = this;
+                this.client.setID(1);
+                this.client.readHoldingRegisters(561, 12).then(data => {
+                    var str = '';
+                    for (let i = 0; i < data.buffer.length; i++) {
+                        var c = String.fromCharCode(data.buffer[i]);
+                        str = str + c;
+                    }
+                    const obj = {
+                        date: str.substr(0, 10),
+                        time: str.substr(10, 5),
+                        data1: str.substr(15, 4),
+                        data2: str.substr(19, 5),
+                        data3: parseFloat(str.substr(19, 5).replace('\'', '.'))
+                    };
+                    //
+                    that.currentData.data.moistureRegain = 28.1;
+                    that.rtuClient.close();
+                });
             },
             stop() {
                 this.runtime = false;
+            },
+            /**
+             * 打开连接
+             */
+            connect() {
+                this.rtuClient = new ModbusRTU();
+                //TODO  填入回潮仪配置信息
+                const openOptions={
+                    baudRate: this.form.data.baudRate,
+                    parity:this.form.data.parity,
+                    dataBits:this.form.data.dataBits,
+                    stopBits: this.form.data.stopBits
+                };
+                this.rtuClient.connectRTUBuffered(this.form.data.com,openOptions , this.readHoldingRegisters);
             },
             /**
              * 检查设备配置状态

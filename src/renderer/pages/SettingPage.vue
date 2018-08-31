@@ -64,19 +64,15 @@
                         </v-flex>
                         <v-list-tile>
                             <v-list-tile-content>实时响应:</v-list-tile-content>
-                            <v-list-tile-content class="align-end">{{test.rus}}</v-list-tile-content>
+                            <v-list-tile-content class="align-end">{{test.res.weight}} KG</v-list-tile-content>
                         </v-list-tile>
                         <v-list-tile>
-                            <v-list-tile-content>仪表型号:</v-list-tile-content>
-                            <v-list-tile-content class="align-end">{{test.rus}}</v-list-tile-content>
+                            <v-list-tile-content>超出范围:</v-list-tile-content>
+                            <v-list-tile-content class="align-end">{{test.res.out}}</v-list-tile-content>
                         </v-list-tile>
                         <v-list-tile>
-                            <v-list-tile-content>软件版本 :</v-list-tile-content>
-                            <v-list-tile-content class="align-end">{{test.rus}}</v-list-tile-content>
-                        </v-list-tile>
-                        <v-list-tile>
-                            <v-list-tile-content>序列号 :</v-list-tile-content>
-                            <v-list-tile-content class="align-end">{{test.rus}}</v-list-tile-content>
+                            <v-list-tile-content>稳定 :</v-list-tile-content>
+                            <v-list-tile-content class="align-end">{{test.res.stable}}</v-list-tile-content>
                         </v-list-tile>
                     </v-list>
                 </v-card>
@@ -117,7 +113,13 @@
                 },
                 test: {
                     serialPort: null,
-                    rus: '',
+                    res:
+                        {
+                            weight: 0,//重量weight
+                            tare: 0,//皮重tare
+                            stable: true,//稳定stable
+                            out: false,//超过测量范围
+                        },
                 },
             }
         },
@@ -152,18 +154,157 @@
                 this.test.serialPort.close();
                 this.test.rus = '';
             },
+            /**
+             * 02    3B    33    20    20    20    20    20    30    35    20    20    20    20    30    35    0D
+             * @param data
+             * @param type
+             */
             testEvent(data, type) {
                 var str = '';
+                const line = [];
+                let line_item = [];
+                let _index = 0;
                 for (let i = 0; i < data.length; i++) {
-                    var c = String.fromCharCode(data[i]);
-                    str = str + c;
+                    if (data[i] === 0x02) {
+                        _index = i;
+                        break;
+                    }
+                    // var c = String.fromCharCode(data[i]);
+                    // str = str + c;
                 }
-                console.log(str);
-                this.test.rus = str;
-                if (type) {
-                    this.test[type] = str;
+
+                let len = 0;
+                for (let i = _index; i < data.length; i++) {
+                    len++;
+                    line_item.push(data[i]);
+                    if (len === 17) {
+                        len = 0;
+                        line.push(JSON.parse(JSON.stringify(line_item)));
+                        line_item = [];
+                    }
+                }
+
+                const lineData = [];
+                for (let i = 0; i < line.length; i++) {
+                    lineData.push(this.parseData(line[i]));
+                }
+
+
+                let res;
+                for (let i = 0; i < lineData.length; i++) {
+                    const item = lineData[i];
+                    if (res) {
+                        if (!item.out) {
+                            if (item.weight !== -.5) {
+                                if(res.weight ===.5) {
+                                    res = item;
+                                }
+                                if(item.stable){
+                                    res = item;
+                                }
+                            }
+                        }
+                    } else {
+                        res = item;
+                    }
+                }
+
+
+                this.test.res = JSON.parse(JSON.stringify(res));
+                debugger;
+
+                // console.log(str);  [14] ./node_modules/electron-devtools-installer/dist/utils.js 1.93 kB {0} [built]
+                // this.test.rus = str;
+                // if (type) {
+                //     this.test[type] = str;
+                // }
+            },
+
+            parseData(data) {
+                if (data.length === 17) {
+
+
+                    const rest = {
+                        weight: 0,//重量weight
+                        tare: 0,//皮重tare
+                        stable: true,//稳定stable
+                        out: false,//超过测量范围
+                    };
+
+                    let staticA = data[1];
+                    const sa = staticA % 8;
+                    let decimalPoint;
+
+                    switch (sa) {
+                        case 0:
+                            decimalPoint = 100;
+                            break;
+                        case 1:
+                            decimalPoint = 10;
+                            break;
+                        case 2:
+                            decimalPoint = 1;
+                            break;
+                        case 3:
+                            decimalPoint = .1;
+                            break;
+                        case 4:
+                            decimalPoint = .01;
+                            break;
+                        case 5:
+                            decimalPoint = .001;
+                            break;
+                        case 6:
+                            decimalPoint = .0001;
+                            break;
+                        case 7:
+                            decimalPoint = .00001;
+                            break;
+                        default:
+                            break;
+                    }
+
+
+                    let staticB = data[2];
+                    const a4 = (staticB >> 4) % 2;// 0 --> lb 1 --> kg
+                    if (a4 === 0) {
+                        decimalPoint = decimalPoint * 0.4535924;
+                    }
+                    const a3 = (staticB >> 3) % 2;// 0 --> 稳定 1 --> 动态
+                    if (a3 === 0) {
+                        rest.stable = true;
+                    } else {
+                        rest.stable = false;
+                    }
+                    const a2 = (staticB >> 2) % 2;// 0 --> 正常 1 --> 超过测量范围
+                    if (a2 === 1) {
+                        rest.out = true;
+                    }
+                    const a1 = (staticB >> 1) % 2;// 0 --> 正 1 --> 负
+                    if (a1 === 1) {
+                        decimalPoint = decimalPoint * -1;
+                    }
+                    const a0 = (staticB >> 0) % 2;// 0 --> 毛重 1 --> 净重
+                    let staticC = data[3];
+
+                    let w_str = '';
+                    for (let i = 4; i < 10; i++) {
+                        w_str = w_str + String.fromCharCode(data[i]);
+                    }
+                    const w = parseInt(w_str) * decimalPoint;
+                    rest.weight = w;
+
+                    let pw_str = '';
+                    for (let i = 10; i < 16; i++) {
+                        pw_str = pw_str + String.fromCharCode(data[i]);
+                    }
+                    const pw = parseInt(pw_str) * decimalPoint;
+                    rest.tare = pw;
+
+                    return rest;
                 }
             },
+
             testClient() {
                 const that = this;
                 const SerialPort = require('serialport');

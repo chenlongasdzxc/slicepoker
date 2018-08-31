@@ -86,3 +86,4 @@ ipcMain.on('printPage', (event, arg) => {
         event.sender.send('printPage-reply', contents.getPrinters())
     });
 });
+

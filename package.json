@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "author": "小米 <744471805@qq.com>",
   "description": "An electron-vue project",
+  "repository": "Air6211332/spic3",
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -20,7 +21,7 @@
   },
   "build": {
     "productName": "spic3",
-    "appId": "org.simulatedgreg.electron-vue",
+    "appId": "com.scxys.spic3",
     "directories": {
       "output": "build"
     },
@@ -46,7 +47,11 @@
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "build/icons/icon.ico",
+      "publish": [
+        "github",
+        "bintray"
+      ]
     },
     "linux": {
       "icon": "build/icons"
@@ -55,6 +60,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "modbus-serial": "^7.3.0",
+    "moment": "^2.22.2",
     "qrcode": "^1.2.0",
     "serialport": "^6.2.2",
     "vue": "^2.4.2",

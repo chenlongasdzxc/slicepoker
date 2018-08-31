@@ -46,7 +46,7 @@
                             ></v-select>
                         </v-flex>
                         <v-flex xs12 sm6 class="item">
-                            <v-btn color="blue" @click.native="save" >保存配置</v-btn>
+                            <v-btn color="blue" @click.native="save">保存配置</v-btn>
                         </v-flex>
                     </v-layout>
                 </v-card>
@@ -59,24 +59,20 @@
                     <v-divider></v-divider>
                     <v-list dense>
                         <v-flex class="item">
-                            <v-btn @click.native="checkConnect" color="blue">连接测试</v-btn>
-                            <!--<v-btn @click.native="testStop" color="red">测试停止</v-btn>-->
+                            <v-btn @click.native="testClient" color="blue">连接测试</v-btn>
+                            <v-btn @click.native="testStop" color="red">测试停止</v-btn>
                         </v-flex>
                         <v-list-tile>
-                            <v-list-tile-content>日期:</v-list-tile-content>
-                            <v-list-tile-content class="align-end">{{test.date}}</v-list-tile-content>
+                            <v-list-tile-content>回潮率:</v-list-tile-content>
+                            <v-list-tile-content class="align-end">{{test.rus}}</v-list-tile-content>
                         </v-list-tile>
                         <v-list-tile>
                             <v-list-tile-content>时间:</v-list-tile-content>
                             <v-list-tile-content class="align-end">{{test.time}}</v-list-tile-content>
                         </v-list-tile>
                         <v-list-tile>
-                            <v-list-tile-content>数据1 :</v-list-tile-content>
-                            <v-list-tile-content class="align-end">{{test.data1}}</v-list-tile-content>
-                        </v-list-tile>
-                        <v-list-tile>
-                            <v-list-tile-content>数据2 :</v-list-tile-content>
-                            <v-list-tile-content class="align-end">{{test.data2}}</v-list-tile-content>
+                            <v-list-tile-content>包号:</v-list-tile-content>
+                            <v-list-tile-content class="align-end">{{test.pack}}</v-list-tile-content>
                         </v-list-tile>
                     </v-list>
                 </v-card>
@@ -87,8 +83,8 @@
 
 </template>
 <script>
-    import ModbusRTU from "modbus-serial";
-    import SerialPort from "serialport";
+    import SerialPort from 'serialport';
+    import moment from 'moment';
 
     export default {
         data() {
@@ -99,17 +95,16 @@
                         baudRate: 9600,//波特率
                         parity: 'none',//校验位
                         dataBits: 8,//数据位
-                        stopBits: 2,//停止位
+                        stopBits: 1,//停止位
                     },
                     default: {
                         com: 'COM1',//端口
-                        baudRate: 9600,//波特率
+                        rate: 9600,//波特率
                         parity: 'none',//校验位
-                        dataBits: 8,//数据位
-                        stopBits: 2,//停止位
+                        data: 8,//数据位
+                        stop: 1,//停止位
                     },
                 },
-                comList: [],
                 inputComponents: {
                     comList: [],//当前已有端口
                     rateList: [1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200],//波特率
@@ -117,39 +112,32 @@
                     dataList: [5, 6, 7, 8],//数据位
                     stopList: [1, 2],//停止位
                 },
-                printers: [],
-                printerName: '',
-                client: null,
                 test: {
                     serialPort: null,
                     rus: '',
-                    data1: null, data2: null, time: null, date: null
-                }
+                    pack: '',
+                    time: '',
+                },
             }
         },
-        beforeRouteLeave(to, from, next){
+        beforeRouteLeave(to, from, next) {
             try {
-                if (this.client) {
-                    if (this.client.isOpen) {
-                        this.client.close();
-                    }
-                }
-            }catch (e) {
+                this.testStop();
+            } catch (e) {
 
             }
             next();
         },
         mounted() {
-            const that = this;
             this.init();
         }, methods: {
-            save(){
-                localStorage.setItem("rtu",JSON.stringify(this.form.data));
+            save() {
+                localStorage.setItem("rtu", JSON.stringify(this.form.data));
             },
             init() {
                 this.initComList();
-                const rtu = localStorage.getItem("rtu");
-                if(rtu){
+                const rtu = localStorage.getItem("weighMachine");
+                if (rtu) {
                     this.form.data = JSON.parse(rtu);
                 }
             },
@@ -159,66 +147,58 @@
                     that.inputComponents.comList = data;
                 }).catch();
             },
-            /**
-             *  检查连接
-             */
-            checkConnect() {
-                if (this.client) {
-                    if (this.client.isOpen) {
-                        this.readHoldingRegisters();
-                    } else {
-                        this.connect();
-                    }
-                } else {
-                    this.connect();
-                }
+            testStop() {
+                this.test.serialPort.close();
+                this.test.rus = '';
+                this.test.pack = '';
+                this.test.time = '';
             },
-            /**
-             * 打开连接
-             */
-            connect() {
-                this.client = new ModbusRTU();
-                const openOptions={
-                    baudRate: this.form.data.baudRate,
-                    parity:this.form.data.parity,
-                    dataBits:this.form.data.dataBits,
-                    stopBits: this.form.data.stopBits
-                }
-                this.client.connectRTUBuffered(this.form.data.com,openOptions , this.readHoldingRegisters);
-            },
-            /**
-             * 数据回显
-             */
-            read(data) {
-                const that = this;
-                this.test = JSON.parse(JSON.stringify(data));
-                setTimeout(()=>{
-                    that.client.close();
-                },3000);
-            },
-            /**
-             * 读取数据
-             */
-            readHoldingRegisters() {
-                const that = this;
-                this.client.setID(1);
-                this.client.readHoldingRegisters(561, 12).then(data => {
+            testEvent(data, type) {
+                /**
+                 *
+                 *01 03 18 30 38 2D 33 31 2D 32 30 31 38 31 34 3A 31 38 30 33 38 30 31 32 2E 36 39 88 5B
+                 08-31-201814:18038012.69圼
+                 * @type {string}
+                 */
+                function getText(data, start, end) {
                     var str = '';
-                    for (let i = 0; i < data.buffer.length; i++) {
-                        var c = String.fromCharCode(data.buffer[i]);
+                    for (let i = start; i < end; i++) {
+                        var c = String.fromCharCode(data[i]);
                         str = str + c;
                     }
-                    const obj = {
-                        date: str.substr(0, 10),
-                        time: str.substr(10, 5),
-                        data1: str.substr(15, 4),
-                        data2: str.substr(19, 5),
-                        data3: parseFloat(str.substr(19, 5).replace('\'', '.'))
-                    };
-                    that.read(obj);
-                });
+                    return str;
+                }
+
+                if (data.length >= 29) {
+                    this.test.rus = getText(data, 22, 27);
+                    this.test.pack = getText(data, 18, 22);
+                    this.test.time = moment(getText(data, 3, 18), 'MM-DD-YYYYHH:mm').format('YYYY-MM-DD HH:mm');
+                }
+
+            },
+            testClient() {
+                const that = this;
+                const SerialPort = require('serialport');
+                const port = new SerialPort(that.form.data.com, that.form.data);
+                this.test.serialPort = port;
+                port.on('data', this.testEvent);
+                this.testSend('I2');
+            },
+            testSend(str) {
+                str = '';
+                str = str + String.fromCharCode(0x01);
+                str = str + String.fromCharCode(0x03);
+                str = str + String.fromCharCode(0x00);
+                str = str + String.fromCharCode(0x00);
+                str = str + String.fromCharCode(0x00);
+                str = str + String.fromCharCode(0x0C);
+                str = str + String.fromCharCode(0x45);
+                str = str + String.fromCharCode(0xCF);
+                console.log(str);
+                this.test.serialPort.write([0x01,0x03,0x00,0x00,0x00
+                    ,0x0C,0x45,0xCF]);
             }
-        }
+        },
     }
 </script>
 
