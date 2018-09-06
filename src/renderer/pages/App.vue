@@ -74,6 +74,6 @@
 </script>
 
 <style>
-    @import url('/static/css/font.css');
+    /*@import url('/static/css/font.css');*/
     /* Global CSS */
 </style>

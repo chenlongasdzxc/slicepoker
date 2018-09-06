@@ -64,7 +64,7 @@
                         </v-flex>
                         <v-list-tile>
                             <v-list-tile-content>实时响应:</v-list-tile-content>
-                            <v-list-tile-content class="align-end">{{test.res.weight}} KG</v-list-tile-content>
+                            <v-list-tile-content class="align-end">{{test.res.weightShow}} KG</v-list-tile-content>
                         </v-list-tile>
                         <v-list-tile>
                             <v-list-tile-content>超出范围:</v-list-tile-content>
@@ -76,13 +76,6 @@
                         </v-list-tile>
                     </v-list>
                 </v-card>
-
-                <v-card>
-                    <div>
-                        <h2>元数据</h2>
-                        <p>{{test.resData}}</p>
-                    </div>
-                </v-card>
             </v-flex>
         </v-layout>
     </v-container>
@@ -91,6 +84,7 @@
 </template>
 <script>
     import SerialPort from 'serialport';
+    import axios from 'axios';
 
     export default {
         data() {
@@ -120,15 +114,18 @@
                 },
                 test: {
                     serialPort: null,
-                    resData:'',
+                    resData: '',
                     res:
                         {
                             weight: 0,//重量weight
                             tare: 0,//皮重tare
                             stable: true,//稳定stable
                             out: false,//超过测量范围
+                            weightShow: "",
                         },
-                    last:[],
+                    last: [],
+                    w_str:'',
+                    lastTime: null,
                 },
             }
         },
@@ -163,6 +160,39 @@
                 this.test.serialPort.close();
                 this.test.rus = '';
             },
+            getRawData(data){
+                let raw = '';
+                for (let i = 0; i < data.length; i++) {
+                    let _item = data[i].toString(16).toUpperCase();
+                    if (_item.length === 1) {
+                        _item = '0' + _item;
+                    }
+                    raw = raw + _item + " ";
+                }
+                return raw;
+            },
+            /**
+             * 发送原始数据，用于分析检测
+             */
+            saveRawData(data) {
+                const _data = {raw: this.getRawData(data)};
+                axios.post('http://171.221.202.43:34001/weightRawData', _data);
+            },
+            /**
+             * 数据拼接
+             * 拼接多次的数据报文
+             */
+            dataStitching(data){
+                const _data = [];
+                for (let i = 0; i < this.test.last.length; i++) {
+                    _data.push(this.test.last[i]);
+                }
+
+                for (let i = 0; i < data.length; i++) {
+                    _data.push(parseInt(data[i].toString()));
+                }
+                return _data;
+            },
             /**
              * 02    3B    33    20    20    20    20    20    30    35    20    20    20    20    30    35    0D
              * @param data
@@ -170,21 +200,14 @@
              */
             testEvent(data, type) {
                 try {
-                    const _data = [];
-                    for (let i = 0; i < this.test.last.length; i++) {
-                        _data.push(this.test.last[i]);
-                    }
-
-                    for (let i = 0; i < data.length; i++) {
-                        _data.push(data[i]);
-                    }
-
-                    this.test.resData = _data.join(" ");
-
+                    //发送原始数据
+                    this.saveRawData(data);
+                    //数据拼装
+                    const _data = this.dataStitching(data);
 
                     let _index = 0;
                     for (let i = 0; i < _data.length; i++) {
-                        if (data[i] === 0x02) {
+                        if (_data[i] === 0x02) {
                             _index = i;
                             break;
                         }
@@ -196,12 +219,14 @@
 
                     const line = [];
                     let line_item = [];
+                    console.log(_data);
                     for (let i = _index; i < _data.length; i++) {
                         len++;
-                        line_item.push(data[i]);
-                        if (len === 17) {
+                        const item = _data[i];
+                        line_item.push(_data[i]);
+                        if(item==0x0D || len === 17) {
                             len = 0;
-                            line.push(line_item);
+                            line.push(JSON.parse(JSON.stringify(line_item)));
                             line_item = [];
                         }
                     }
@@ -210,21 +235,37 @@
 
                     const lineData = [];
                     for (let i = 0; i < line.length; i++) {
-                        lineData.push(this.parseData(line[i]));
+                        const item = this.parseData(line[i]);
+                        if(item) {
+                            lineData.push(item);
+                        }
                     }
 
 
                     let res;
+                    const last_time_temp = new Date();
                     for (let i = 0; i < lineData.length; i++) {
                         const item = lineData[i];
                         if (res) {
-                            if (!item.out) {
-                                if (item.weight !== -.5) {
-                                    if (res.weight === .5) {
-                                        res = item;
-                                    }
-                                    if (item.stable) {
-                                        res = item;
+                            if ((typeof item.weight) === 'number') {
+
+                                if (item.weight > 0.01) {
+                                    if (!item.out) {
+                                        if (last_time_temp && this.test.lastTime &&
+                                            last_time_temp.getTime() - this.test.lastTime.getTime() < 200) {
+                                            if (item.weight !== -.5) {
+                                                if (res.weight === .5) {
+                                                    res = item;
+                                                }
+                                                if (item.stable) {
+                                                    res = item;
+                                                }
+                                            }
+                                        } else {
+                                            if (item.stable) {
+                                                res = item;
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -233,8 +274,9 @@
                         }
                     }
 
-
+                    this.test.lastTime = last_time_temp;
                     this.test.res = res;
+                    this.test.res.weightShow = this.test.res.weight.toFixed(2);
                     debugger;
 
                     // console.log(str);  [14] ./node_modules/electron-devtools-installer/dist/utils.js 1.93 kB {0} [built]
@@ -242,70 +284,109 @@
                     // if (type) {
                     //     this.test[type] = str;
                     // }
-                }catch (e) {
-                    alert(e);
+                } catch (e) {
                 }
             },
 
             parseData(data) {
                 if (data.length === 17) {
 
-
-                    const rest = {
-                        weight: 0,//重量weight
-                        tare: 0,//皮重tare
-                        stable: true,//稳定stable
-                        out: false,//超过测量范围
-                    };
-
-                    let staticA = data[1];
-                    const sa = staticA % 8;
-                    let decimalPoint = Math.pow(10,2-sa);
-
-                    let staticB = data[2];
-
-                    const a4 = (staticB >> 4) % 2;// 0 --> lb 1 --> kg
-                    if (a4 === 0) {
-                        decimalPoint = decimalPoint * 0.4535924;
+                    let validData = true;
+                    for(let i in data){
+                        if(!data[i]){
+                            console.log(data[i],"=测试=")
+                            validData = false;
+                        }
                     }
-                    const a3 = (staticB >> 3) % 2;// 0 --> 稳定 1 --> 动态
-                    rest.stable = a3 === 0;
-                    const a2 = (staticB >> 2) % 2;// 0 --> 正常 1 --> 超过测量范围
-                    if (a2 === 1) {
-                        rest.out = true;
-                    }
-                    const a1 = (staticB >> 1) % 2;// 0 --> 正 1 --> 负
-                    if (a1 === 1) {
-                        decimalPoint = decimalPoint * -1;
-                    }
-                    const a0 = (staticB >> 0) % 2;// 0 --> 毛重 1 --> 净重
-                    let staticC = data[3];
 
-                    let w_str = '';
-                    for (let i = 4; i < 10; i++) {
-                        w_str = w_str + String.fromCharCode(data[i]);
-                    }
-                    const w = parseInt(w_str) * decimalPoint;
-                    rest.weight = w;
+                    if(validData) {
+                        console.log(data, "=data=")
 
-                    let pw_str = '';
-                    for (let i = 10; i < 16; i++) {
-                        pw_str = pw_str + String.fromCharCode(data[i]);
-                    }
-                    const pw = parseInt(pw_str) * decimalPoint;
-                    rest.tare = pw;
+                        const rest = {
+                            weight: 0,//重量weight
+                            tare: 0,//皮重tare
+                            stable: true,//稳定stable
+                            out: false,//超过测量范围
+                        };
 
-                    return rest;
+                        let staticA = data[1];
+                        const sa = staticA % 8;
+
+                        if ((typeof sa) !== 'number') {
+                            console.error('位数数字错误')
+                        }
+                        let decimalPoint = Math.pow(10, 2 - sa);
+
+                        let staticB = data[2];
+
+                        const a4 = (staticB >> 4) % 2;// 0 --> lb 1 --> kg
+                        if (a4 === 0) {
+                            decimalPoint = decimalPoint * 0.4535924;
+                        }
+                        const a3 = (staticB >> 3) % 2;// 0 --> 稳定 1 --> 动态
+                        rest.stable = a3 === 0;
+                        const a2 = (staticB >> 2) % 2;// 0 --> 正常 1 --> 超过测量范围
+                        if (a2 === 1) {
+                            rest.out = true;
+                        }
+                        const a1 = (staticB >> 1) % 2;// 0 --> 正 1 --> 负
+                        if (a1 === 1) {
+                            decimalPoint = decimalPoint * -1;
+                        }
+                        const a0 = (staticB >> 0) % 2;// 0 --> 毛重 1 --> 净重
+                        let staticC = data[3];
+
+
+                        let w_str = '';
+                        for (let i = 4; i < 10; i++) {
+                            w_str = w_str + String.fromCharCode(data[i]);
+                        }
+                        this.test.w_str = (typeof w_temp);
+                        const w_temp = parseInt(w_str);
+                        if ((typeof w_temp) !== 'number') {
+                            console.error('解析数字失败')
+                        }
+                        const w = parseInt(w_str) * decimalPoint;
+                        rest.weight = w;
+
+                        let pw_str = '';
+                        for (let i = 10; i < 16; i++) {
+                            pw_str = pw_str + String.fromCharCode(data[i]);
+                        }
+                        const pw = parseInt(pw_str) * decimalPoint;
+                        rest.tare = pw;
+
+                        const _data = {
+                            raw: data.join(' '),
+                            staticA: staticA,
+                            staticB: staticB,
+                            staticC: staticC,
+                            weight: w,
+                            grossWeight: pw,
+                            weightUnit: a4 ? 'kg' : 'lb',
+                            decimalPosition: sa,
+                            originalNumber: w_str,
+                        };
+                        axios.post('http://171.221.202.43:34001/weightParseData', _data);
+
+                        return rest;
+                    }
+                    else{
+                        return null;
+                    }
                 }
-                else{
+                else {
                     this.last = data;
+                    return null;
                 }
             },
 
             testClient() {
+
                 const that = this;
                 const SerialPort = require('serialport');
                 const port = new SerialPort(that.form.data.com, that.form.data);
+                that.lastTime = new Date();
                 this.test.serialPort = port;
                 port.on('data', this.testEvent);
                 this.testSend('I2');
