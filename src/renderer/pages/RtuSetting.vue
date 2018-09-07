@@ -162,6 +162,7 @@
                  1 3 24 48 56 45 51 49
                  45 50 48 49 56 49 56 58 53 49 48 54 51 55 49 49 46 54 48 231 130
                  *01 03 18 30 38 2D 33 31 2D 32 30 31 38 31 34 3A 31 38 30 33 38 30 31 32 2E 36 39 88 5B
+                 * 1 3 18 30 39 2d 30 37 2d 32 30 31 38 30 39 3a 31 36 30 30 38 37 30 39
                  *
                  * 01 03 18 30 38 2D 33 31 2D 32 30 31 38
                  * 31 34 3A 31 38 30 33 38 30 31 32 2E 36 39 88 5B
@@ -169,14 +170,15 @@
                  */
 
                 const _data = [];
-                for (let i = 0; i < this.test.readTemp.length; i++) {
-                    _data.push(this.test.readTemp[i]);
+                for(let item of this.test.readTemp) {
+                    _data.push(item);
                 }
 
-                for (let i = 0; i < data.length; i++) {
-                    _data.push(data[i]);
+                for(let item of data) {
+                    if(item) {
+                        _data.push(item);
+                    }
                 }
-
 
                 function getText(data, start, end) {
                     let str = '';
