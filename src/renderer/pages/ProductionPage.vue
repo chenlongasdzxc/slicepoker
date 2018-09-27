@@ -3,42 +3,46 @@
         <v-flex xs10 class="mt-4">
             <v-container grid-list-md>
                 <v-layout row wrap v-if="checkDevice()">
-                    <v-flex xs12 sm6 md8 lg9 xl10>
+                    <!--<v-flex xs12 sm6 md8 lg9 xl10>-->
+                    <v-flex>
                         <v-layout column>
-                            <v-flex>
-                                <v-card>
-                                    <v-card-title>基本信息</v-card-title>
-                                    <v-divider></v-divider>
-                                    <v-container grid-list-md>
-                                        <v-form ref="form" v-model="form.valid">
+                            <v-form ref="form" v-model="form.valid">
+                                <v-flex>
+                                    <v-card>
+                                        <v-card-title>
+                                            <span>基本信息</span>
+                                        </v-card-title>
+                                        <v-divider></v-divider>
+                                        <v-container grid-list-md>
+
                                             <v-layout wrap>
-                                                <v-flex xs12 sm6 md4 lg3 xl2>
-                                                    <v-text-field :rules="form.requireRules" type="number"
-                                                                  v-model="form.data.specDtex" label="规格"
-                                                                  :disabled="runtime" suffix="dtex"></v-text-field>
-                                                </v-flex>
-                                                <v-flex xs12 sm6 md4 lg3 xl2>
-                                                    <v-text-field :rules="form.requireRules" v-model="form.data.specMm"
-                                                                  suffix="mm" label="规格" type="number"
-                                                                  :disabled="runtime"></v-text-field>
-                                                </v-flex>
-                                                <v-flex xs12 sm6 md4 lg3 xl2>
-                                                    <v-text-field :rules="form.requireRules" v-model="form.data.lotNo"
-                                                                  label="大批号" :disabled="runtime"></v-text-field>
-                                                </v-flex>
-                                                <v-flex xs12 sm6 md4 lg3 xl2>
-                                                    <v-text-field :rules="form.requireRules" v-model="form.data.grade"
-                                                                  label="等级" :disabled="runtime"></v-text-field>
-                                                </v-flex>
+                                                <!--<v-flex xs12 sm6 md4 lg3 xl2>-->
+                                                <!--<v-text-field :rules="form.requireRules" type="number"-->
+                                                <!--v-model="form.data.specDtex" label="规格"-->
+                                                <!--:disabled="runtime" suffix="dtex"></v-text-field>-->
+                                                <!--</v-flex>-->
+                                                <!--<v-flex xs12 sm6 md4 lg3 xl2>-->
+                                                <!--<v-text-field :rules="form.requireRules" v-model="form.data.specMm"-->
+                                                <!--suffix="mm" label="规格" type="number"-->
+                                                <!--:disabled="runtime"></v-text-field>-->
+                                                <!--</v-flex>-->
+                                                <!--<v-flex xs12 sm6 md4 lg3 xl2>-->
+                                                <!--<v-text-field :rules="form.requireRules" v-model="form.data.lotNo"-->
+                                                <!--label="大批号" :disabled="runtime"></v-text-field>-->
+                                                <!--</v-flex>-->
+                                                <!--<v-flex xs12 sm6 md4 lg3 xl2>-->
+                                                <!--<v-text-field :rules="form.requireRules" v-model="form.data.grade"-->
+                                                <!--label="等级" :disabled="runtime"></v-text-field>-->
+                                                <!--</v-flex>-->
                                                 <v-flex xs12 sm6 md4 lg3 xl2>
                                                     <v-text-field :rules="form.requireRules" v-model="form.data.no"
                                                                   label="编号" :disabled="runtime"></v-text-field>
                                                 </v-flex>
-                                                <v-flex xs12 sm6 md4 lg3 xl2>
-                                                    <v-text-field :rules="form.requireRules" v-model="form.data.baleNo"
-                                                                  label="起始包号" type="number"
-                                                                  :disabled="runtime"></v-text-field>
-                                                </v-flex>
+                                                <!--<v-flex xs12 sm6 md4 lg3 xl2>-->
+                                                <!--<v-text-field :rules="form.requireRules" v-model="form.data.baleNo"-->
+                                                <!--label="起始包号" type="number"-->
+                                                <!--:disabled="runtime"></v-text-field>-->
+                                                <!--</v-flex>-->
                                                 <v-flex xs12 sm6 md4 lg3 xl2>
                                                     <v-select :rules="form.requireRules"
                                                               v-model="form.data.printerTemplate"
@@ -58,34 +62,172 @@
                                                 </v-flex>
                                             </v-layout>
 
-                                        </v-form>
-                                    </v-container>
-                                </v-card>
-                            </v-flex>
-                            <v-flex>
-                                <v-card>
-                                    <v-card-title>数据回显</v-card-title>
-                                    <v-divider></v-divider>
-                                    <v-container>
-                                        <v-data-table :headers="table.headers" :items="table.data">
-                                            <template slot="no-data">
-                                                暂无数据！
-                                            </template>
-                                            <template slot="items" slot-scope="props">
-                                                <td>{{ props.item.baleNo }}</td>
-                                                <td>{{ props.item.moistureRegain }}</td>
-                                                <td>{{ props.item.weight }}</td>
-                                            </template>
-                                        </v-data-table>
-                                    </v-container>
-                                </v-card>
-                            </v-flex>
+
+                                        </v-container>
+                                    </v-card>
+                                </v-flex>
+
+                                <v-flex>
+                                    <v-card>
+                                        <div class="data_show_div"
+                                             style="display: inline-block;height: 138mm;width: 130mm">
+
+                                            <div id="border" class="border"
+                                                 style="top:0;left: 0;height: 136mm;width: 128mm;"></div>
+
+                                            <div id="text01" class="title" style="left: 1mm;top:8mm;width: 126mm">GMVS
+                                            </div>
+                                            <div id="text02" class="title" style="left: 1mm;top:26mm;width: 126mm">
+                                                涡流纺专用纤维素纤维
+                                            </div>
+
+
+                                            <!--<img style="width: 36mm;height: 36mm;position: fixed;left: 91mm;top:99mm;"-->
+                                            <!--:src="moistureRegain.url" alt="">-->
+                                            <img v-if="currentData.data.url"
+                                                 style="width: 36mm;height: 36mm;position: absolute;left: 91mm;top:99mm;"
+                                                 :src.sync="currentData.data.url" alt="">
+
+                                            <img style="width: 36mm;height: 36mm;position: absolute;left: 91mm;top:99mm;"
+                                                 v-if="!currentData.data.url"
+                                                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIQAAACECAYAAABRRIOnAAAAAklEQVR4AewaftIAAANuSURBVO3BMY7jSAAEwcyG/v/lujHOKIsAIUo7u6gI84OZ/x1mymGmHGbKYaYcZsphphxmymGmHGbKYaYcZsphphxmymGmHGbKizepfFMSmsodSbii0pJwRaUloal8UxLecZgph5lymCkvHpaEJ6m8IwlXVL4pCU9SedJhphxmymGmvPgwlTuS8CSVK0m4Q6Ul4R0qdyThkw4z5TBTDjPlxV8uCU2lJeGKyh1JaCotCX+zw0w5zJTDTHnxj1NpSWhJuEOlJeFfcpgph5lymCkvPiwJn6TSktBUfrMk/CaHmXKYKYeZ8uJhKn8TlZaEptKS0FRaEq6o/GaHmXKYKYeZYn7wF1N5UhKuqFxJwt/sMFMOM+UwU158mModSWgqLQlXktBUWhKuqNyRhKZyRxKuqNyRhHccZsphphxmivnBg1RaEppKS8IdKnck4TdRuZKEpnJHEt5xmCmHmXKYKS++LAlN5UlJaCpXktBU7khCU2lJuEPlShI+6TBTDjPlMFNevEnliso7ktBUrqjcodKS8E1JuKLSVFoSnnSYKYeZcpgp5gdfpHIlCU2lJaGptCS8Q+VKEppKS8I7VK4k4ZMOM+UwUw4zxfzgDSotCU3lHUl4kkpLQlO5IwlNpSXhikpLwhWVK0l4x2GmHGbKYaa8+LIkXFFpKi0J70hCU2lJaCpXVJ6kciUJn3SYKYeZcpgpL75M5Y4kNJWWhKbSknAlCU3ljiRcUXmSypUkvOMwUw4z5TBTXnxYEq6oXFFpSWgqT0rCFZWm8qQkNJVvOsyUw0w5zJQXb0rCO5LwTSotCU3lHUm4Q+WOJHzSYaYcZsphprx4k8o3JaEloak8KQlN5Q6VloQ7ktBUWhKedJgph5lymCkvHpaEJ6n8SSotCU3lShLuULmShKbSkvCOw0w5zJTDTHnxYSp3JOEOlZaEpvKOJNyh8kkqLQlPOsyUw0w5zJQX/xiVO1TuULmShCeptCQ0lZaEdxxmymGmHGbKi39MEprKk5LQVJrKlSQ0ld/kMFMOM+UwU158WBI+KQlXktBUriThikpLwh0qV5LQVL7pMFMOM+UwU148TOVPUrmShDtUPikJTeWKyicdZsphphxmivnBzP8OM+UwUw4z5TBTDjPlMFMOM+UwUw4z5TBTDjPlMFMOM+UwUw4z5T/SKmYzeQPxfAAAAABJRU5ErkJggg=="
+                                                 alt="">
+
+                                            <div id="text03" class="cn" style="left: 3mm;top:calc( 34mm + 14mm*1 )">规格
+                                            </div>
+                                            <div id="text09" class="en"
+                                                 style="left: 23mm;top:calc( 34mm + 14mm*1 + 3mm)">
+                                                Spec:
+                                            </div>
+                                            <div id="data_specDtex" class="data_input"
+                                                 style="left: 48mm;top:calc( 34mm + 14mm*1 - 2mm);width: 25mm">
+                                                <v-text-field v-if="runtime" :readonly="runtime"
+                                                              v-model="currentData.data.specDtex"></v-text-field>
+                                                <v-text-field v-else :rules="form.requireRules"
+                                                              v-model="form.data.specDtex"></v-text-field>
+                                            </div>
+                                            <div id="text15" class="en"
+                                                 style="left: 75mm;top:calc( 34mm + 14mm*1 + 3mm)">
+                                                dtex
+                                            </div>
+                                            <div id="data_specMm" class="data_input"
+                                                 style="left: 90mm;top:calc( 34mm + 14mm*1 - 2mm);width: 25mm">
+                                                <v-text-field v-if="runtime" :readonly="runtime"
+                                                              v-model="currentData.data.specMm"></v-text-field>
+                                                <v-text-field v-else :rules="form.requireRules"
+                                                              v-model="form.data.specMm"></v-text-field>
+                                            </div>
+                                            <div id="text16" class="en"
+                                                 style="left: 116mm;top:calc( 34mm + 14mm*1 + 3mm)">
+                                                mm
+                                            </div>
+
+                                            <div id="text04" class="cn" style="left: 3mm;top:calc( 34mm + 14mm*2 )">等级
+                                            </div>
+                                            <div id="text10" class="en"
+                                                 style="left: 23mm;top:calc( 34mm + 14mm*2 + 3mm)">
+                                                Grade:
+                                            </div>
+                                            <div id="data_grade" class="data_input"
+                                                 style="left: 48mm;top:calc( 34mm + 14mm*2 - 2mm);width: 70mm">
+                                                <v-text-field v-if="runtime" :readonly="runtime"
+                                                              v-model="currentData.data.grade"></v-text-field>
+                                                <v-text-field v-else :rules="form.requireRules"
+                                                              v-model="form.data.grade"></v-text-field>
+                                            </div>
+
+                                            <div id="text05" class="cn" style="left: 3mm;top:calc( 34mm + 14mm*3 )">净重
+                                            </div>
+                                            <div id="text11" class="en"
+                                                 style="left: 23mm;top:calc( 34mm + 14mm*3 + 3mm)">
+                                                Weight:
+                                            </div>
+                                            <div id="data_weight" class="data_input"
+                                                 style="left: 48mm;top:calc( 34mm + 14mm*3 - 2mm);width: 70mm">
+                                                <v-text-field readonly v-model="currentData.data.weight"></v-text-field>
+                                            </div>
+                                            <div id="text17" class="en"
+                                                 style="left: 119mm;top:calc( 34mm + 14mm*3 + 3mm)">
+                                                kg
+                                            </div>
+
+                                            <div id="text06" class="cn"
+                                                 style="left: 3mm;top:calc( 34mm + 14mm*4 + 0mm)">
+                                                批号
+                                            </div>
+                                            <div id="text12" class="en"
+                                                 style="left: 23mm;top:calc( 34mm + 14mm*4 + 3mm)">
+                                                Lot No.:
+                                            </div>
+                                            <div id="data_lotNo" class="data_input"
+                                                 style="left: 48mm;top:calc( 34mm + 14mm*4 - 2mm);width: 70mm">
+                                                <v-text-field v-if="runtime" :readonly="runtime"
+                                                              v-model="currentData.data.lotNo"></v-text-field>
+                                                <v-text-field v-else :rules="form.requireRules"
+                                                              v-model="form.data.lotNo"></v-text-field>
+                                            </div>
+
+                                            <div id="text07" class="cn"
+                                                 style="left: 3mm;top:calc( 34mm + 14mm*5 - 0mm)">
+                                                包号
+                                            </div>
+                                            <div id="text13" class="en"
+                                                 style="left: 23mm;top:calc( 34mm + 14mm*5 + 3mm)">
+                                                Bale No.:
+                                            </div>
+                                            <div id="data_baleNo" class="data_input"
+                                                 style="left: 48mm;top:calc( 34mm + 14mm*5 - 2mm);width: 40mm">
+                                                <v-text-field v-if="runtime" :readonly="runtime"
+                                                              v-model="currentData.data.baleNo"></v-text-field>
+                                                <v-text-field v-else :rules="form.requireRules"
+                                                              v-model="form.data.baleNo"></v-text-field>
+                                            </div>
+
+                                            <div id="text08" class="cn"
+                                                 style="left: 3mm;top:calc( 34mm + 14mm*6 - 0mm)">
+                                                执行标准
+                                            </div>
+                                            <div id="text14" class="en"
+                                                 style="left: 39mm;top:120mm;font-size: 5mm!important;">Executive
+                                                Standard:<br/>GB/T14463-2008
+                                            </div>
+
+                                            <!--<div id="data_moistureRegain" class="data" style="left: 20mm;top:40mm">{{data.moistureRegain}}</div>-->
+
+
+                                            <!--<div>-->
+                                            <!--编号:  <div>{{data.lotNo}}</div>-->
+                                            <!--</div>-->
+
+                                        </div>
+                                    </v-card>
+                                </v-flex>
+                                <!--<v-flex>-->
+                                <!--<v-card>-->
+                                <!--<v-card-title>数据回显</v-card-title>-->
+                                <!--<v-divider></v-divider>-->
+                                <!--<v-container>-->
+                                <!--<v-data-table :headers="table.headers" :items="table.data">-->
+                                <!--<template slot="no-data">-->
+                                <!--暂无数据！-->
+                                <!--</template>-->
+                                <!--<template slot="items" slot-scope="props">-->
+                                <!--<td>{{ props.item.baleNo }}</td>-->
+                                <!--<td>{{ props.item.moistureRegain }}</td>-->
+                                <!--<td>{{ props.item.weight }}</td>-->
+                                <!--</template>-->
+                                <!--</v-data-table>-->
+                                <!--</v-container>-->
+                                <!--</v-card>-->
+                                <!--</v-flex>-->
+                            </v-form>
                         </v-layout>
                     </v-flex>
-                    <v-flex xs12 sm6 md4 lg3 xl2>
-                        <DeviceStatus :drivers="drivers"/>
-                    </v-flex>
+                    <!--<v-flex xs12 sm6 md4 lg3 xl2>-->
+                    <!--<DeviceStatus :drivers="drivers"/>-->
+                    <!--</v-flex>-->
                 </v-layout>
+
                 <v-layout row wrap v-if="!checkDevice()">
                     <v-flex>
                         <DeviceStatus :drivers="drivers"/>
@@ -99,6 +241,7 @@
 
     import DeviceStatus from "../components/DeviceStatus";
     import axios from 'axios';
+    import qrcode from 'qrcode';
 
     export default {
         name: 'production',
@@ -182,6 +325,7 @@
                     lastValidTime: null,
                     data: {},
                 }
+                ,printerName:'',
             }
         },
         beforeRouteLeave(to, from, next) {
@@ -211,11 +355,19 @@
                 this.weighingMachine.setting = JSON.parse(localStorage.getItem("weighMachine"));
                 this.resurgenceMeter.setting = JSON.parse(localStorage.getItem("rtu"));
                 this.resurgenceMeter_open();
+                this.data_view_qrCodeGeneration('');
+                if(sessionStorage.getItem("prd_rt")){
+                    this.form.data = JSON.parse(sessionStorage.getItem("prd_rt"));
+                    this.form.data.baleNo = this.form.data.baleNo +1;
+                    setTimeout(this.start,500);
+                }
             },
             start() {
                 if (this.$refs.form.validate()) {
                     this.runtime = true;
                     this.currentData.nextBaleNo = parseInt(this.form.data.baleNo);
+                    // this.currentData.nextBaleNo = parseInt(this.currentData.data.baleNo);
+                    sessionStorage.setItem("prd_rt",JSON.stringify( this.form.data));
                     this.newData();
                     this.weighingMachine_open();
                 }
@@ -226,6 +378,7 @@
                 this.currentData.nextBaleNo = this.currentData.nextBaleNo + 1;
                 data.moistureRegain = '等待数据';
                 data.weight = '等待数据';
+                this.data_view_qrCodeGeneration(data.moistureRegain);
                 this.currentData.data = JSON.parse(JSON.stringify(data));
                 this.currentData.wb = true;
                 this.table.data.push(this.currentData.data);
@@ -233,6 +386,7 @@
             stop() {
                 this.runtime = false;
                 this.weighingMachine_stop();
+                sessionStorage.removeItem("prd_rt");
             },
             /**
              * 检查设备配置状态
@@ -250,6 +404,7 @@
                 if (p) {
                     this.drivers[2].hasBeenSet = true;
                     this.drivers[2].data.name = p;
+                    this.printerName = p;
                 } else {
                     b = false;
                 }
@@ -272,25 +427,25 @@
             },
             printPage() {
                 const data = {
-                    specDtex: 1.33,
-                    specMm: 51,
-                    grade: 'A',
-                    weight: 27,
-                    lotNo: 1234,
-                    baleNo: 12,
-                    moistureRegain: 28.1,
+                    specDtex: this.currentData.data.specDtex,
+                    specMm: this.currentData.data.specMm,
+                    grade: this.currentData.data.grade,
+                    weight: this.currentData.data.weight,
+                    lotNo: this.currentData.data.lotNo,
+                    baleNo: this.currentData.data.baleNo,
+                    moistureRegain: this.currentData.data.moistureRegain,
                     printerName: this.printerName,
                     backPath: '/product',
                 };
-                var url = this.printerTemplate;
-                var params = '';
-                for (var key in data) {
+                let url = this.form.data.printerTemplate;
+                let params = '';
+                for (let key in data) {
                     params = params + `${key}=${data[key]}&`
                 }
                 url = `${url}?${params}`;
                 url = url.substr(0, url.length - 1);
                 // window.open(url);
-                const pushData = {path: this.printerTemplate, query: data};
+                const pushData = {path: this.form.data.printerTemplate, query: data};
                 this.$router.push(pushData)
                 // ipcRenderer.send('printPage',this.printerName);
             },
@@ -341,9 +496,7 @@
                             break;
                         }
                     }
-
                     let len = 0;
-
                     const line = [];
                     let line_item = [];
                     for (let i = _index; i < _data.length; i++) {
@@ -365,42 +518,16 @@
                             lineData.push(item);
                         }
                     }
-
-
                     let res;
                     const last_time_temp = new Date();
-                    for (let i = 0; i < lineData.length; i++) {
-                        const item = lineData[i];
+                    for (let item of lineData) {
                         if (res) {
                             if ((typeof item.weight) === 'number') {
-
                                 res = item;
-                                // if (item.weight > 0.01) {
-                                //
-                                //     if (!item.out) {
-                                //         if (last_time_temp && this.weighingMachine.lastTime &&
-                                //             last_time_temp.getTime() - this.weighingMachine.lastTime.getTime() < 200) {
-                                //             if (item.weight !== -.5) {
-                                //                 if (res.weight === .5) {
-                                //                     res = item;
-                                //                 }
-                                //                 if (item.stable) {
-                                //                     res = item;
-                                //                 }
-                                //             }
-                                //         } else {
-                                //             if (item.stable) {
-                                //                 res = item;
-                                //             }
-                                //         }
-                                //     }
-                                // }
                             }
                         } else {
                             res = item;
-
                         }
-
                         this.weighingMachine_tableRecord(item);
                         this.weighingMachine_realTimeDisplay(item);
                     }
@@ -417,8 +544,7 @@
              * 称重机数据实时显示
              */
             weighingMachine_realTimeDisplay(data) {
-                //TODO 数据实时显示
-                debugger;
+
             },
             /**
              * 称重机数据表格充填
@@ -494,6 +620,7 @@
                         }
                         const a3 = (staticB >> 3) % 2;// 0 --> 稳定 1 --> 动态
                         rest.stable = a3 === 0;
+
                         const a2 = (staticB >> 2) % 2;// 0 --> 正常 1 --> 超过测量范围
                         if (a2 === 1) {
                             rest.out = true;
@@ -536,7 +663,6 @@
                             originalNumber: w_str,
                         };
                         axios.post('http://171.221.202.43:34001/weightParseData', _data);
-
                         return rest;
                     }
                     else {
@@ -588,6 +714,7 @@
             },
             resurgenceMeter_listener(data, type) {
                 try {
+
                     this.log('resurgenceMeter_listener_enter', 'debug', 'generationManagement', 'resurgenceMeter_listener');
                     this.log(`data:${JSON.stringify(data)}\nthis.resurgenceMeter.rawDataCache:${JSON.stringify(this.resurgenceMeter.rawDataCache)}`, 'debug', 'generationManagement', 'resurgenceMeter_listener');
                     /**
@@ -625,6 +752,7 @@
                         }
                         ;
                         if (_data.length >= 29) {
+
                             this.log(`dataIntegrity`, 'debug', 'generationManagement', 'resurgenceMeter_listener');
                             this.resurgenceMeter.data.rus = getText(_data, 22, 27);
                             this.resurgenceMeter_setData(this.resurgenceMeter.data.rus);
@@ -643,6 +771,7 @@
                 }
             },
             resurgenceMeter_setData(data) {
+
                 this.currentData.data.moistureRegain = data;
                 const _data = parseFloat(data);
 
@@ -670,14 +799,77 @@
                     }
                 }
 
-                this.newData();
+                this.printPage();
             },
             resurgenceMeter_stop() {
                 if (this.resurgenceMeter.serialPort) {
                     this.resurgenceMeter.serialPort.close();
                 }
             },
+            data_view_qrCodeGeneration(str) {
+                const that = this;
+                console.log(str);
+                qrcode.toDataURL(`回潮率：${str}`, {errorCorrectionLevel: 'H'}, (err, url) => {
+                    console.log('生成了二维码');
+                    ;
+                    that.currentData.data.url = url;
+                });
+            },
         },
 
     }
 </script>
+<style scoped>
+    .data_show_div > .input-group__input > input {
+        text-align: center !important;
+    }
+
+    .border {
+        border: 2px solid black;
+        position: absolute;
+        /*border-radius: 4mm;*/
+    }
+
+    .data {
+        position: absolute;
+        font-size: 10mm !important;
+        font-weight: bold;
+        border-bottom: black .4mm solid;
+        text-align: center;
+    }
+
+    .data_input > input {
+        border-bottom: black .4mm solid;
+    }
+
+    .data_input {
+        position: absolute;
+        font-size: 10mm !important;
+        font-weight: bold;
+        /*border-bottom: black .4mm solid;*/
+        text-align: center;
+    }
+
+    .en {
+        position: absolute;
+        font-size: 6mm !important;
+    }
+
+    .cn {
+        position: absolute;
+        font-size: 7mm !important;
+    }
+
+    .title {
+        position: absolute;
+        font-size: 11mm !important;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    canvas {
+        width: 52mm !important;
+        height: 52mm !important;
+    }
+
+</style>
