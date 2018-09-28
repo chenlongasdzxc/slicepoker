@@ -62,7 +62,23 @@ export default new Router({
                     path:'p3',
                     name:'p3',
                     component: require('@/printer/printer3').default,
-                }
+                },{
+                    path:'p4',
+                    name:'p4',
+                    component: require('@/printer/printer4').default,
+                },{
+                    path:'p5',
+                    name:'p5',
+                    component: require('@/printer/printer5').default,
+                },{
+                    path:'p6',
+                    name:'p6',
+                    component: require('@/printer/printer6').default,
+                },{
+                    path:'p7',
+                    name:'p7',
+                    component: require('@/printer/printer7').default,
+                },
             ]
         },
         {
