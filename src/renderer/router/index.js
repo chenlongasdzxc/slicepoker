@@ -43,6 +43,11 @@ export default new Router({
                     name: 'charSetting',
                     component: require('@/pages/CharSetting').default
                 },
+                {
+                    path: '/dataCheck',
+                    name: 'dataCheck',
+                    component: require('@/pages/DataCheck').default
+                },
             ]
         },
         {

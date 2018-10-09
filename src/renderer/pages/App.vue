@@ -63,6 +63,7 @@
                 {icon: 'build', title: '回潮仪配置', to: '/rtu'},
                 {icon: 'build', title: '打印机配置', to: '/printer'},
                 {icon: 'build', title: '包号规则配置', to: '/charSetting'},
+                {icon: 'build', title: '数据查看', to:'/dataCheck'},
                 {icon: 'memory', title: '生产管理', to: '/product'},
                 // {icon: 'assessment', title: '数据查看', to: '/inspire'},
                 // {icon: 'bubble_chart', title: '关于', to: '/inspire'},
