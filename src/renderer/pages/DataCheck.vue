@@ -70,7 +70,7 @@
      },methods:{
          init(){
              const that =this;
-             this.$http.get('http://localhost:34001/packData').then((reponse=>{
+             this.$http.get('http://171.221.202.43:34001/packData').then((reponse=>{
                  if (reponse.data.code == '200') {
                      that.form = reponse.data.data.content;
                  }
