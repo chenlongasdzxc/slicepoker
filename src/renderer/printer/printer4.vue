@@ -4,7 +4,7 @@
         <div id="border" class="border" style="top:0mm;left: 0mm;height: 136mm;width: 150mm;"></div>
 
         <div id="text01" class="title1" style="left: 10mm;top:6mm;width: 126mm;">GMVS</div>
-        <div id="text02" class="title2" style="top:24mm;width: 150mm;">涡流纺专用纤维素纤维</div>
+        <div id="text02" class="title2" style="left: 0mm;top:24mm;width: 150mm;">涡流纺专用纤维素纤维</div>
 
 
         <!--<img style="width: 36mm;height: 36mm;position: fixed;left: 91mm;top:99mm;"
@@ -120,15 +120,14 @@
     }
 
     .border {
-        border: 2px solid black;
+        border: 1mm solid black;
         position: fixed;
-        /*border-radius: 4mm;*/
     }
 
     .data {
+        font-weight: bolder;
         position: fixed;
         font-size: 42pt !important;
-        font-weight: bold;
         border-bottom: black .4mm solid;
         text-align: center;
         font-family: Arial;
@@ -136,12 +135,14 @@
     }
 
     .en {
+        font-weight: bolder;
         position: fixed;
         font-size: 6mm !important;
     }
 
     .cn {
         position: fixed;
+        font-weight: bolder;
         font-size: 7mm !important;
     }
 
@@ -151,16 +152,17 @@
     }
 
     .title1 {
+        font-weight: bolder;
         position: fixed;
         font-size: 48pt !important;
-        font-weight: bold;
         text-align: center;
         font-family: Arial;
     }
     .title2{
+        font-weight: bolder;
         position: fixed;
         font-family: 黑体;
-        font-size: 42pt !important;
+        font-size: 41pt !important;
         text-align: center;
     }
 

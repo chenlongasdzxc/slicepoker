@@ -13,7 +13,7 @@
 
         <div id="text04" class="cn" style="left: 10mm;top:45mm">等级</div>
         <div id="text10" class="en" style="left: 30mm;top:48mm">Grade:</div>
-        <div id="data_grade" class="data" style="left: 52mm;top:40mm;width: 82mm;font-family: 黑体;font-size: 42pt !important;">{{data.grade}}</div>
+        <div id="data_grade" class="data" style="left: 52mm;top:40mm;width: 82mm;font-family: SimHei;font-size: 42pt !important;">{{data.grade}}</div>
 
         <div id="text05" class="cn" style="left: 10mm;top:70mm">净重</div>
         <div id="text11" class="en" style="left: 30mm;top:73mm">Weight:</div>
@@ -111,12 +111,12 @@
 <style scoped>
 
     .border {
-        border: 1px solid black;
+        border: 1mm solid black;
         position: fixed;
-        border-radius: 4mm;
     }
 
     .data {
+        font-weight: bold;
         position: fixed;
         border-bottom: black .4mm solid;
         text-align: center;
@@ -127,14 +127,16 @@
 
     .en {
         position: fixed;
+        font-weight: bold;
         font-size: 16pt !important;
         font-family: Arial;
     }
 
     .cn {
+        font-family: SimHei;
         position: fixed;
+        font-weight: bold;
         font-size: 22pt !important;
-        font-family: 黑体;
     }
 
     canvas {

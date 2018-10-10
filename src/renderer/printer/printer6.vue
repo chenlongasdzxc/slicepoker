@@ -116,15 +116,15 @@
 <style scoped>
 
     .border {
-        border: 1px solid black;
+        border: 1mm solid black;
         position: fixed;
-        border-radius: 4mm;
     }
 
     .data {
         position: fixed;
         font-size: 48pt !important;
         font-family: Arial;
+        font-weight: bolder;
         border-bottom: black .4mm solid;
         text-align: center;
         line-height: 14mm;
@@ -133,11 +133,13 @@
     .en {
         position: fixed;
         font-size: 16pt !important;
+        font-weight: bolder;
         font-family: Arial;
     }
 
     .cn {
         position: fixed;
+        font-weight: bolder;
         font-size: 22pt !important;
         font-family: 黑体;
     }

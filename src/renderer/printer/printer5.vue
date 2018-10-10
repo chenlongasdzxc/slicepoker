@@ -6,32 +6,32 @@
         <!--<img style="width: 44mm;height: 44mm;position: fixed;left: 101mm;top:30mm;border: 1px solid black"
              :src="moistureRegain.url" alt="">-->
 
-        <div id="text03" class="cn" style="left: 6mm;top:10mm">规格</div>
-        <div id="text09" class="en" style="left: 21mm;top:10mm">Spec:</div>
+        <div id="text03" class="cn" style="left: 6mm;top:8mm">规格</div>
+        <div id="text09" class="en" style="left: 22mm;top:10mm">Spec:</div>
         <div id="data_specDtex" class="data" style="left: 42mm;top:4mm;width: 36mm;font-family: Arial;font-size: 42pt;line-height: 12mm">{{data.specDtex}}</div>
         <div id="text15" class="en" style="left: 80mm;top:10mm">dtex</div>
         <div id="data_specMm" class="data" style="left: 94mm;top:4mm;width: 34mm;font-family: Arial;font-size: 42pt;line-height: 12mm">{{data.specMm}}</div>
         <div id="text16" class="en" style="left: 130mm;top:10mm">mm</div>
 
-        <div id="text04" class="cn" style="left: 6mm;top:24mm">等级</div>
-        <div id="text10" class="en" style="left: 21mm;top:24mm">Grade:</div>
+        <div id="text04" class="cn" style="left: 6mm;top:22mm">等级</div>
+        <div id="text10" class="en" style="left: 22mm;top:24mm">Grade:</div>
         <div id="data_grade" class="data" style="left: 48mm;top:19mm;width: 80mm;font-family: 黑体;font-size: 42pt;line-height: 11mm">{{data.grade}}</div>
 
-        <div id="text05" class="cn" style="left: 6mm;top:38mm">净重</div>
-        <div id="text11" class="en" style="left:21mm;top:38mm">Weight:</div>
+        <div id="text05" class="cn" style="left: 6mm;top:36mm">净重</div>
+        <div id="text11" class="en" style="left:22mm;top:38mm">Weight:</div>
         <div id="data_weight" class="data" style="left: 48mm;top:32mm;width: 80mm;font-family: Arial;font-size: 42pt;line-height: 12mm">{{data.weight}}</div>
         <div id="text17" class="en" style="left: 130mm;top:37mm">kg</div>
 
-        <div id="text06" class="cn" style="left: 6mm;top:58mm">批号</div>
+        <div id="text06" class="cn" style="left: 6mm;top:56mm">批号</div>
         <div id="text12" class="en" style="left: 21mm;top:58mm">Lot No.:</div>
         <div id="data_lotNo" class="data" style="left: 48mm;top:46mm;width: 80mm;font-family: Arial;font-size: 68pt;line-height: 18mm">{{data.lotNo}}</div>
 
-        <div id="text07" class="cn" style="left: 6mm;top:78mm">包号</div>
-        <div id="text13" class="en" style="left: 21mm;top:78mm">Bale No.:</div>
+        <div id="text07" class="cn" style="left: 6mm;top:76mm">包号</div>
+        <div id="text13" class="en" style="left: 22mm;top:78mm">Bale No.:</div>
         <div id="data_baleNo" class="data" style="left: 50mm;top:66mm;width: 78mm;font-family: Arial;font-size: 68pt;line-height: 18mm">{{data.baleNo}}</div>
 
-        <div id="text08" class="cn" style="left: 6mm;top:88mm">执行标准</div>
-        <div id="text14" class="en" style="left: 35mm;top:88mm">Executive Standard:GB/T14463-2008</div>
+        <div id="text08" class="cn" style="left: 6mm;top:86mm">执行标准</div>
+        <div id="text14" class="en" style="left: 40mm;top:88mm">Executive Standard:GB/T14463-2008</div>
 
         <v-btn v-if="data.preview" @click.navite="back">返回</v-btn>
         <!--<div id="data_moistureRegain" class="data" style="left: 20mm;top:40mm">{{data.moistureRegain}}</div>-->
@@ -112,26 +112,39 @@
 
 <style scoped>
 
+@page{
+    size: portrait;
+    margin: 0;
+}
+
+
     .border {
-        border: 1px solid black;
+        border: 1mm solid black;
         position: fixed;
-        border-radius: 4mm;
+        /* border-radius: 4mm; */
     }
 
     .data {
+        font-family: Arial, Helvetica, sans-serif;
         position: fixed;
+        font-size: 42pt;
+         font-weight: bold;
         border-bottom: black .4mm solid;
         text-align: center;
     }
 
     .en {
+        font-family: Arial;
         position: fixed;
-        font-size: 7mm !important;
+        font-weight: bold;
+        font-size: 16pt !important;
     }
 
     .cn {
+        font-family: SimHei;
         position: fixed;
-        font-size: 7mm !important;
+         font-weight: bold;
+        font-size: 22pt !important;
     }
 
     canvas {
