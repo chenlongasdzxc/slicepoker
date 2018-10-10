@@ -34,10 +34,10 @@
                                                 <!--<v-text-field :rules="form.requireRules" v-model="form.data.grade"-->
                                                 <!--label="等级" :disabled="runtime"></v-text-field>-->
                                                 <!--</v-flex>-->
-                                                <v-flex xs12 sm6 md4 lg3 xl2>
-                                                    <v-text-field :rules="form.requireRules" v-model="form.data.no"
-                                                                  label="编号" :disabled="runtime"></v-text-field>
-                                                </v-flex>
+                                                <!--<v-flex xs12 sm6 md4 lg3 xl2>-->
+                                                    <!--<v-text-field :rules="form.requireRules" v-model="form.data.no"-->
+                                                                  <!--label="编号" :disabled="runtime"></v-text-field>-->
+                                                <!--</v-flex>-->
                                                 <!--<v-flex xs12 sm6 md4 lg3 xl2>-->
                                                 <!--<v-text-field :rules="form.requireRules" v-model="form.data.baleNo"-->
                                                 <!--label="起始包号" type="number"-->
@@ -363,7 +363,7 @@
                 if(sessionStorage.getItem("prd_rt")){
                     this.form.data = JSON.parse(sessionStorage.getItem("prd_rt"));
                     this.form.data.baleNo = this.form.data.baleNo +1;
-                    setTimeout(this.start,500);
+                    setTimeout(this.start,3500);
                 }
             },
             start() {
@@ -446,6 +446,7 @@
                 for (let key in data) {
                     params = params + `${key}=${data[key]}&`
                 }
+                this.$http.post('http://171.221.202.43:34001/packData',data);
                 url = `${url}?${params}`;
                 url = url.substr(0, url.length - 1);
                 // window.open(url);
