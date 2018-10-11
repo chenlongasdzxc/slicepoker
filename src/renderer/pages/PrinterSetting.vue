@@ -89,7 +89,7 @@
                 const data={
                     specDtex:1.33,
                     specMm:51,
-                    grade:'A',
+                    grade:'优等品',
                     weight:27,
                     lotNo:1234,
                     baleNo:12,

@@ -1,51 +1,55 @@
 <template>
-    <div style="display: inline-block;height: 138mm;width: 160mm">
+    <div>
+        <div style="display: inline-block;height: 138mm;width: 160mm">
+            <div style="position:fixed;display: inline-block;left:48mm;top:-97mm;height: 100mm;width: 150mm;" id="print-div">
+                <div id="border" class="border" style="top:0mm;left: 0mm;height: 146mm;width: 156mm;"></div>
 
-        <div id="border" class="border" style="top:0mm;left: 0mm;height: 136mm;width: 150mm;"></div>
-
-        <div id="text01" class="title1" style="left: 10mm;top:6mm;width: 126mm;">GMVS</div>
-        <div id="text02" class="title2" style="left: 0mm;top:24mm;width: 150mm;">涡流纺专用纤维素纤维</div>
-
-
-        <!--<img style="width: 36mm;height: 36mm;position: fixed;left: 91mm;top:99mm;"
-             :src="moistureRegain.url" alt="">-->
-
-        <div id="text03" class="cn" style="left: 12mm;top:calc( 34mm + 14mm*1 )">规格</div>
-        <div id="text09" class="en" style="left: 32mm;top:calc( 34mm + 14mm*1 + 3mm)">Spec:</div>
-        <div id="data_specDtex" class="data" style="left: 50mm;top:calc( 34mm + 14mm*1 - 2mm);width: 30mm">{{data.specDtex}}</div>
-        <div id="text15" class="en" style="left: 82mm;top:calc( 34mm + 14mm*1 + 3mm)">dtex</div>
-        <div id="data_specMm" class="data" style="left: 96mm;top:calc( 34mm + 14mm*1 - 2mm);width: 31mm">{{data.specMm}}</div>
-        <div id="text16" class="en" style="left: 130mm;top:calc( 34mm + 14mm*1 + 3mm)">mm</div>
-
-        <div id="text04" class="cn" style="left: 12mm;top:calc( 34mm + 14mm*2 )">等级</div>
-        <div id="text10" class="en" style="left: 32mm;top:calc( 34mm + 14mm*2 + 3mm)">Grade:</div>
-        <div id="data_grade" class="data" style="left: 52mm;top:calc( 34mm + 14mm*2 - 2mm);width: 75mm">{{data.grade}}</div>
-
-        <div id="text05" class="cn" style="left: 12mm;top:calc( 34mm + 14mm*3 )">净重</div>
-        <div id="text11" class="en" style="left: 28mm;top:calc( 34mm + 14mm*3 + 3mm)">Weight:</div>
-        <div id="data_weight" class="data" style="left: 52mm;top:calc( 34mm + 14mm*3 - 2mm);width: 75mm">{{data.weight.toFixed(1)}}</div>
-        <div id="text17" class="en" style="left: 130mm;top:calc( 34mm + 14mm*3 + 3mm)">kg</div>
-
-        <div id="text06" class="cn" style="left: 12mm;top:calc( 34mm + 14mm*4 + 0mm)">批号</div>
-        <div id="text12" class="en" style="left: 28mm;top:calc( 34mm + 14mm*4 + 3mm)">Lot No.:</div>
-        <div id="data_lotNo" class="data" style="left: 52mm;top:calc( 34mm + 14mm*4 - 2mm);width: 75mm">{{data.lotNo}}</div>
-
-        <div id="text07" class="cn" style="left: 12mm;top:calc( 34mm + 14mm*5 - 0mm)">包号</div>
-        <div id="text13" class="en" style="left: 28mm;top:calc( 34mm + 14mm*5 + 3mm)">Bale No.:</div>
-        <div id="data_baleNo" class="data" style="left: 54mm;top:calc( 34mm + 14mm*5 - 2mm);width: 73mm">{{data.baleNo}}</div>
-
-        <div id="text08" class="cn" style="left: 12mm;top:calc( 34mm + 14mm*6 - 0mm)">执行标准</div>
-        <div id="text14" class="en" style="left: 42mm;top:120mm;font-size: 5mm!important;">Executive Standard:GB/T14463-2008</div>
-
-        <v-btn v-if="data.preview" @click.navite="back">返回</v-btn>
-        <!--<div id="data_moistureRegain" class="data" style="left: 20mm;top:40mm">{{data.moistureRegain}}</div>-->
+                <div id="text01" class="title1" style="left: 14mm;top:6mm;width: 126mm;">GMVS</div>
+                <div id="text02" class="title2" style="left: 4mm;top:24mm;width: 150mm;">涡流纺专用纤维素纤维</div>
 
 
-        <!--<div>-->
-        <!--编号:  <div>{{data.lotNo}}</div>-->
-        <!--</div>-->
+                <!--<img style="width: 36mm;height: 36mm;position: fixed;left: 91mm;top:99mm;"
+                     :src="moistureRegain.url" alt="">-->
 
+                <div id="text03" class="cn" style="left: 15mm;top:calc( 34mm + 16mm*1 )">规格</div>
+                <div id="text09" class="en" style="left: calc( 35mm - 0mm );top:calc( 34mm + 16mm*1 + 3mm)">Spec:</div>
+                <div id="data_specDtex" class="data" style="left: 52mm;top:calc( 34mm + 16mm*1 - 2mm);width: 30mm;font-family: Arial;font-size: 42pt">{{data.specDtex}}</div>
+                <div id="text15" class="en" style="left: 85mm;top:calc( 34mm + 16mm*1 + 3mm)">dtex</div>
+                <div id="data_specMm" class="data" style="left: 98mm;top:calc( 34mm + 16mm*1 - 2mm);width: 31mm;font-family: Arial;font-size: 42pt">{{data.specMm}}</div>
+                <div id="text16" class="en" style="left: 130mm;top:calc( 34mm + 16mm*1 + 3mm)">mm</div>
+
+                <div id="text04" class="cn" style="left: 15mm;top:calc( 34mm + 16mm*2 )">等级</div>
+                <div id="text10" class="en" style="left: calc( 35mm - 0mm );top:calc( 34mm + 16mm*2 + 3mm)">Grade:</div>
+                <div id="data_grade" class="data" style="left: 55mm;top:calc( 34mm + 16mm*2 - 2mm);width: 75mm;font-size: 42pt;font-family: 黑体">{{data.grade}}</div>
+
+                <div id="text05" class="cn" style="left: 15mm;top:calc( 34mm + 16mm*3 )">净重</div>
+                <div id="text11" class="en" style="left: calc( 35mm - 4mm );top:calc( 34mm + 16mm*3 + 3mm)">Weight:</div>
+                <div id="data_weight" class="data" style="left: 55mm;top:calc( 34mm + 16mm*3 - 2mm);width: 75mm;font-family: Arial;font-size: 42pt">{{data.weight.toFixed(1)}}</div>
+                <div id="text17" class="en" style="left: 130mm;top:calc( 34mm + 16mm*3 + 3mm)">kg</div>
+
+                <div id="text06" class="cn" style="left: 15mm;top:calc( 34mm + 16mm*4 + 0mm)">批号</div>
+                <div id="text12" class="en" style="left: calc( 35mm - 4mm );top:calc( 34mm + 16mm*4 + 3mm)">Lot No.:</div>
+                <div id="data_lotNo" class="data" style="left: 55mm;top:calc( 34mm + 16mm*4 - 2mm);width: 75mm;font-family: Arial;font-size: 42pt">{{data.lotNo}}</div>
+
+                <div id="text07" class="cn" style="left: 15mm;top:calc( 34mm + 16mm*5 - 0mm)">包号</div>
+                <div id="text13" class="en" style="left: calc( 35mm - 4mm );top:calc( 34mm + 16mm*5 + 3mm)">Bale No.:</div>
+                <div id="data_baleNo" class="data" style="left: 57mm;top:calc( 34mm + 16mm*5 - 2mm);width: 73mm;font-family: Arial;font-size: 42pt">{{data.baleNo}}</div>
+
+                <div id="text08" class="cn" style="left: 15mm;top:calc( 34mm + 16mm*6 - 0mm)">执行标准</div>
+                <div id="text14" class="en" style="left: calc( 35mm + 10mm ); top:calc( 34mm + 16mm*6 + 2mm);font-size: 5mm!important;">Executive Standard:GB/T14463-2008</div>
+
+
+                <!--<div id="data_moistureRegain" class="data" style="left: 20mm;top:40mm">{{data.moistureRegain}}</div>-->
+
+
+                <!--<div>-->
+                <!--编号:  <div>{{data.lotNo}}</div>-->
+                <!--</div>-->
+            </div>
+            <v-btn v-if="data.preview" @click.navite="back">返回</v-btn>
+        </div>
     </div>
+
 </template>
 <script>
     const {ipcRenderer} = require('electron');
@@ -118,6 +122,19 @@
     *{
         font-family: "Microsoft YaHei UI";
     }
+    @page{
+        size: portrait;
+        margin: 0;
+    }
+
+    #print-div{
+        transform:rotateZ(90deg);
+        -ms-transform:rotateZ(90deg); 	/* IE 9 */
+        -moz-transform:rotateZ(90deg); 	/* Firefox */
+        -webkit-transform:rotateZ(90deg); /* Safari 和 Chrome */
+        -o-transform:rotateZ(90deg); 	/* Opera */
+        -webkit-transform-origin: left bottom;
+    }
 
     .border {
         border: 1mm solid black;
@@ -127,11 +144,9 @@
     .data {
         font-weight: bolder;
         position: fixed;
-        font-size: 42pt !important;
         border-bottom: black .4mm solid;
         text-align: center;
-        font-family: Arial;
-        line-height: 12mm;
+        line-height: 14mm;
     }
 
     .en {

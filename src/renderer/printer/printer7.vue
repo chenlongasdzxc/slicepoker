@@ -1,7 +1,7 @@
 <template>
     <div style="display: inline-block;height: 160mm;width: 150mm">
-
-        <div id="border" class="border" style="top:4mm;left: 4mm;height: 150mm;width: 150mm;"></div>
+        <div style="position:fixed;display: inline-block;left:53mm;top:-103mm;height: 100mm;width: 150mm;" id="print-div">
+        <div id="border" class="border" style="top:4mm;left: 4mm;height: 148mm;width: 150mm;"></div>
 
 
         <div id="text03" class="cn" style="left: 10mm;top:20mm">规格</div>
@@ -31,14 +31,15 @@
         <div id="text08" class="cn" style="left: 10mm;top:140mm">执行标准</div>
         <div id="text14" class="en" style="left: 46mm;top:142mm">Executive Standard:GB/T14463-2008</div>
 
-        <v-btn v-if="data.preview" @click.navite="back">返回</v-btn>
+
         <!--<div id="data_moistureRegain" class="data" style="left: 20mm;top:40mm">{{data.moistureRegain}}</div>-->
 
 
         <!--<div>-->
         <!--编号:  <div>{{data.lotNo}}</div>-->
         <!--</div>-->
-
+        </div>
+        <v-btn v-if="data.preview" @click.navite="back">返回</v-btn>
     </div>
 </template>
 <script>
@@ -110,6 +111,20 @@
 
 <style scoped>
 
+
+    @page{
+        size: portrait;
+        margin: 0;
+    }
+
+    #print-div{
+        transform:rotateZ(90deg);
+        -ms-transform:rotateZ(90deg); 	/* IE 9 */
+        -moz-transform:rotateZ(90deg); 	/* Firefox */
+        -webkit-transform:rotateZ(90deg); /* Safari 和 Chrome */
+        -o-transform:rotateZ(90deg); 	/* Opera */
+        -webkit-transform-origin: left bottom;
+    }
     .border {
         border: 1mm solid black;
         position: fixed;
