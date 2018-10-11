@@ -1,5 +1,6 @@
 <template>
-    <div style="display: inline-block;height: 100mm;width: 150mm">
+    <div style="height: 150mm;width: 100mm;">
+    <div style="position:fixed;display: inline-block;left:0;top:-100mm;height: 100mm;width: 150mm;" id="print-div">
 
         <div id="border" class="border" style="top:2mm;left: 2mm;height: 96mm;width: 146mm;"></div>
 
@@ -33,7 +34,7 @@
         <div id="text08" class="cn" style="left: 6mm;top:86mm">执行标准</div>
         <div id="text14" class="en" style="left: 40mm;top:88mm">Executive Standard:GB/T14463-2008</div>
 
-        <v-btn v-if="data.preview" @click.navite="back">返回</v-btn>
+
         <!--<div id="data_moistureRegain" class="data" style="left: 20mm;top:40mm">{{data.moistureRegain}}</div>-->
 
 
@@ -41,6 +42,8 @@
         <!--编号:  <div>{{data.lotNo}}</div>-->
         <!--</div>-->
 
+    </div>
+        <v-btn v-if="data.preview" @click.navite="back">返回</v-btn>
     </div>
 </template>
 <script>
@@ -117,6 +120,14 @@
     margin: 0;
 }
 
+#print-div{
+    transform:rotateZ(90deg);
+    -ms-transform:rotateZ(90deg); 	/* IE 9 */
+    -moz-transform:rotateZ(90deg); 	/* Firefox */
+    -webkit-transform:rotateZ(90deg); /* Safari 和 Chrome */
+    -o-transform:rotateZ(90deg); 	/* Opera */
+    -webkit-transform-origin: left bottom;
+}
 
     .border {
         border: 1mm solid black;
