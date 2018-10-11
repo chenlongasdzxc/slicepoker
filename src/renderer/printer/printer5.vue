@@ -1,6 +1,6 @@
 <template>
     <div style="height: 150mm;width: 100mm;">
-    <div style="position:fixed;display: inline-block;left:0;top:-100mm;height: 100mm;width: 150mm;" id="print-div">
+    <div style="position:fixed;display: inline-block;left:2mm;top:-100mm;height: 100mm;width: 150mm;" id="print-div">
 
         <div id="border" class="border" style="top:2mm;left: 2mm;height: 96mm;width: 146mm;"></div>
 
@@ -20,7 +20,7 @@
 
         <div id="text05" class="cn" style="left: 6mm;top:36mm">净重</div>
         <div id="text11" class="en" style="left:22mm;top:38mm">Weight:</div>
-        <div id="data_weight" class="data" style="left: 48mm;top:32mm;width: 80mm;font-family: Arial;font-size: 42pt;line-height: 12mm">{{data.weight}}</div>
+        <div id="data_weight" class="data" style="left: 48mm;top:32mm;width: 80mm;font-family: Arial;font-size: 42pt;line-height: 12mm">{{data.weight.toFixed(1)}}</div>
         <div id="text17" class="en" style="left: 130mm;top:37mm">kg</div>
 
         <div id="text06" class="cn" style="left: 6mm;top:56mm">批号</div>

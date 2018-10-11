@@ -17,7 +17,7 @@
 
         <div id="text05" class="cn" style="left: 10mm;top:70mm">净重</div>
         <div id="text11" class="en" style="left: 30mm;top:73mm">Weight:</div>
-        <div id="data_weight" class="data" style="left: 52mm;top:66mm;width: 82mm;font-family: Arial;font-size: 48pt !important;">{{data.weight}}</div>
+        <div id="data_weight" class="data" style="left: 52mm;top:66mm;width: 82mm;font-family: Arial;font-size: 48pt !important;">{{data.weight.toFixed(1)}}</div>
         <div id="text17" class="en" style="left: 138mm;top:73mm">kg</div>
 
         <div id="text06" class="cn" style="left: 10mm;top:95mm">批号</div>
