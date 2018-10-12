@@ -1,7 +1,7 @@
 <template>
     <div>
         <div style="display: inline-block;height: 138mm;width: 160mm">
-            <div style="position:fixed;display: inline-block;left:48mm;top:-97mm;height: 100mm;width: 150mm;" id="print-div">
+            <div style="position:absolute;display: inline-block;left:48mm;top:-97mm;height: 100mm;width: 150mm;" id="print-div">
                 <div id="border" class="border" style="top:0mm;left: 0mm;height: 146mm;width: 156mm;"></div>
 
                 <div id="text01" class="title1" style="left: 14mm;top:6mm;width: 126mm;">GMVS</div>
@@ -138,12 +138,12 @@
 
     .border {
         border: 1mm solid black;
-        position: fixed;
+        position: absolute;
     }
 
     .data {
         font-weight: bolder;
-        position: fixed;
+        position: absolute;
         border-bottom: black .4mm solid;
         text-align: center;
         line-height: 14mm;
@@ -151,12 +151,12 @@
 
     .en {
         font-weight: bolder;
-        position: fixed;
+        position: absolute;
         font-size: 6mm !important;
     }
 
     .cn {
-        position: fixed;
+        position: absolute;
         font-weight: bolder;
         font-size: 7mm !important;
     }
@@ -168,14 +168,14 @@
 
     .title1 {
         font-weight: bolder;
-        position: fixed;
+        position: absolute;
         font-size: 48pt !important;
         text-align: center;
         font-family: Arial;
     }
     .title2{
         font-weight: bolder;
-        position: fixed;
+        position: absolute;
         font-family: 黑体;
         font-size: 41pt !important;
         text-align: center;
