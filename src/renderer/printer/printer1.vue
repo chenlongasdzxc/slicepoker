@@ -121,12 +121,12 @@
 
     .border {
         border: 2px solid black;
-        position: fixed;
+        position: absolute;
         /*border-radius: 4mm;*/
     }
 
     .data {
-        position: fixed;
+        position: absolute;
         font-size: 10mm !important;
         font-weight: bold;
         border-bottom: black .4mm solid;
@@ -134,12 +134,12 @@
     }
 
     .en {
-        position: fixed;
+        position: absolute;
         font-size: 6mm !important;
     }
 
     .cn {
-        position: fixed;
+        position: absolute;
         font-size: 7mm !important;
     }
 
@@ -149,7 +149,7 @@
     }
 
     .title {
-        position: fixed;
+        position: absolute;
         font-size: 11mm !important;
         font-weight: bold;
         text-align: center;

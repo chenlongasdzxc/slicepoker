@@ -1,6 +1,6 @@
 <template>
     <div style="height: 150mm;width: 100mm;">
-    <div style="position:fixed;display: inline-block;left:2mm;top:-100mm;height: 100mm;width: 150mm;" id="print-div">
+    <div style="position:absolute;display: inline-block;left:2mm;top:-100mm;height: 100mm;width: 150mm;" id="print-div">
 
         <div id="border" class="border" style="top:2mm;left: 2mm;height: 96mm;width: 146mm;"></div>
 
@@ -16,16 +16,16 @@
 
         <div id="text04" class="cn" style="left: 6mm;top:22mm">等级</div>
         <div id="text10" class="en" style="left: 22mm;top:24mm">Grade:</div>
-        <div id="data_grade" class="data" style="left: 48mm;top:19mm;width: 80mm;font-family: 黑体;font-size: 42pt;line-height: 11mm">{{data.grade}}</div>
+        <div id="data_grade" class="data" style="left: 48mm;top:19mm;width: 80mm;font-family: 黑体;font-size: 42pt;line-height: 13mm">{{data.grade}}</div>
 
-        <div id="text05" class="cn" style="left: 6mm;top:36mm">净重</div>
-        <div id="text11" class="en" style="left:22mm;top:38mm">Weight:</div>
-        <div id="data_weight" class="data" style="left: 48mm;top:32mm;width: 80mm;font-family: Arial;font-size: 42pt;line-height: 12mm">{{data.weight.toFixed(1)}}</div>
+        <div id="text05" class="cn" style="left: 6mm;top:37mm">净重</div>
+        <div id="text11" class="en" style="left:22mm;top:39mm">Weight:</div>
+        <div id="data_weight" class="data" style="left: 48mm;top:33mm;width: 80mm;font-family: Arial;font-size: 42pt;line-height: 12mm">{{data.weight.toFixed(1)}}</div>
         <div id="text17" class="en" style="left: 130mm;top:37mm">kg</div>
 
-        <div id="text06" class="cn" style="left: 6mm;top:56mm">批号</div>
-        <div id="text12" class="en" style="left: 21mm;top:58mm">Lot No.:</div>
-        <div id="data_lotNo" class="data" style="left: 48mm;top:46mm;width: 80mm;font-family: Arial;font-size: 68pt;line-height: 18mm">{{data.lotNo}}</div>
+        <div id="text06" class="cn" style="left: 6mm;top:57mm">批号</div>
+        <div id="text12" class="en" style="left: 21mm;top:59mm">Lot No.:</div>
+        <div id="data_lotNo" class="data" style="left: 48mm;top:47mm;width: 80mm;font-family: Arial;font-size: 68pt;line-height: 18mm">{{data.lotNo}}</div>
 
         <div id="text07" class="cn" style="left: 6mm;top:76mm">包号</div>
         <div id="text13" class="en" style="left: 22mm;top:78mm">Bale No.:</div>
@@ -131,29 +131,30 @@
 
     .border {
         border: 1mm solid black;
-        position: fixed;
+        position: absolute;
         /* border-radius: 4mm; */
     }
 
     .data {
         font-family: Arial, Helvetica, sans-serif;
-        position: fixed;
+        position: absolute;
         font-size: 42pt;
          font-weight: bold;
         border-bottom: black .4mm solid;
         text-align: center;
+        line-height: 6mm;
     }
 
     .en {
         font-family: Arial;
-        position: fixed;
+        position: absolute;
         font-weight: bold;
         font-size: 16pt !important;
     }
 
     .cn {
         font-family: SimHei;
-        position: fixed;
+        position: absolute;
          font-weight: bold;
         font-size: 22pt !important;
     }
@@ -164,7 +165,7 @@
     }
 
     .title {
-        position: fixed;
+        position: absolute;
         font-size: 14mm !important;
         font-weight: bold;
         text-align: center;

@@ -1,6 +1,6 @@
 <template>
     <div style="display: inline-block;height: 160mm;width: 150mm">
-        <div style="position:fixed;display: inline-block;left:53mm;top:-103mm;height: 100mm;width: 150mm;" id="print-div">
+        <div style="position:absolute;display: inline-block;left:53mm;top:-103mm;height: 100mm;width: 150mm;" id="print-div">
         <div id="border" class="border" style="top:4mm;left: 4mm;height: 148mm;width: 150mm;"></div>
 
 
@@ -127,12 +127,12 @@
     }
     .border {
         border: 1mm solid black;
-        position: fixed;
+        position: absolute;
     }
 
     .data {
         font-weight: bold;
-        position: fixed;
+        position: absolute;
         border-bottom: black .4mm solid;
         text-align: center;
         line-height: 14mm;
@@ -141,7 +141,7 @@
 
 
     .en {
-        position: fixed;
+        position: absolute;
         font-weight: bold;
         font-size: 16pt !important;
         font-family: Arial;
@@ -149,7 +149,7 @@
 
     .cn {
         font-family: SimHei;
-        position: fixed;
+        position: absolute;
         font-weight: bold;
         font-size: 22pt !important;
     }
@@ -160,7 +160,7 @@
     }
 
     .title {
-        position: fixed;
+        position: absolute;
         font-family: Arial;
         font-size: 32pt !important;
         font-weight: bold;

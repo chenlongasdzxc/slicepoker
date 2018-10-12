@@ -1,6 +1,6 @@
 <template>
     <div style="display: inline-block;height: 160mm;width: 150mm">
-        <div style="position:fixed;display: inline-block;left:53mm;top:-103mm;height: 100mm;width: 150mm;" id="print-div">
+        <div style="position:absolute;display: inline-block;left:53mm;top:-103mm;height: 100mm;width: 150mm;" id="print-div">
         <div id="border" class="border" style="top:4mm;left: 4mm;height: 148mm;width: 150mm;"></div>
 
         <div id="text01" class="title" style="left: 8mm;top:16mm;width: 50mm">VISCOSE</div>
@@ -118,7 +118,7 @@
 
     .border {
         border: 1mm solid black;
-        position: fixed;
+        position: absolute;
     }
 
     @page{
@@ -136,7 +136,7 @@
     }
 
     .data {
-        position: fixed;
+        position: absolute;
         /*font-size: 48pt !important;*/
         font-family: Arial;
         font-weight: bolder;
@@ -146,7 +146,7 @@
     }
 
     .data1{
-        position: fixed;
+        position: absolute;
         text-align: center;
         border-bottom: black .4mm solid;
         line-height: 17.5mm;
@@ -156,14 +156,14 @@
     }
 
     .en {
-        position: fixed;
+        position: absolute;
         font-size: 16pt !important;
         font-weight: bolder;
         font-family: Arial;
     }
 
     .cn {
-        position: fixed;
+        position: absolute;
         font-weight: bolder;
         font-size: 22pt !important;
         font-family: 黑体;
@@ -175,7 +175,7 @@
     }
 
     .title {
-        position: fixed;
+        position: absolute;
         font-family: Arial;
         font-size: 32pt !important;
         font-weight: bold;
