@@ -1,4 +1,5 @@
 <template>
+    <!--涡流纺专用标签-->
     <div>
         <div style="display: inline-block;height: 138mm;width: 160mm">
             <div style="position:absolute;display: inline-block;left:48mm;top:-97mm;height: 100mm;width: 150mm;" id="print-div">

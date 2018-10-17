@@ -1,4 +1,6 @@
 <template>
+
+    <!--常规标签-->
     <div style="height: 150mm;width: 100mm;">
     <div style="position:absolute;display: inline-block;left:4mm;top:-100mm;height: 100mm;width: 150mm;" id="print-div">
 

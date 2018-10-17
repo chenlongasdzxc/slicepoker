@@ -1,35 +1,35 @@
 <template>
     <div style="display: inline-block;height: 160mm;width: 150mm">
-        <div style="position:absolute;display: inline-block;left:53mm;top:-103mm;height: 100mm;width: 150mm;" id="print-div">
-        <div id="border" class="border" style="top:4mm;left: 4mm;height: 148mm;width: 150mm;"></div>
+        <div style="position:absolute;display: inline-block;left:52mm;top:-102mm;height: 100mm;width: 150mm;" id="print-div">
+        <div id="border" class="border" style="top:4mm;left: 4mm;height: 146mm;width: 160mm;"></div>
 
 
-        <div id="text03" class="cn" style="left: 10mm;top:20mm">规格</div>
-        <div id="text09" class="en" style="left: 30mm;top:23mm">Spec:</div>
-        <div id="data_specDtex" class="data" style="left: 50mm;top:15mm;width: 34mm;font-family: Arial;font-size: 48pt !important;">{{data.specDtex}}</div>
-        <div id="text15" class="en" style="left: 86mm;top:23mm">dtex</div>
-        <div id="data_specMm" class="data" style="left: 100mm;top:15mm;width: 34mm;font-family: Arial;font-size: 48pt !important;">{{data.specMm}}</div>
-        <div id="text16" class="en" style="left: 138mm;top:23mm">mm</div>
+        <div id="text03" class="cn" style="left: 14mm;top:20mm">规格</div>
+        <div id="text09" class="en" style="left: 32mm;top:23mm">Spec:</div>
+        <div id="data_specDtex" class="data" style="left: 50mm;top:15mm;width: 38mm;font-family: Arial;font-size: 48pt !important;">{{data.specDtex}}</div>
+        <div id="text15" class="en" style="left: 92mm;top:23mm">dtex</div>
+        <div id="data_specMm" class="data" style="left: 106mm;top:15mm;width: 38mm;font-family: Arial;font-size: 48pt !important;">{{data.specMm}}</div>
+        <div id="text16" class="en" style="left: 146mm;top:23mm">mm</div>
 
-        <div id="text04" class="cn" style="left: 10mm;top:45mm">等级</div>
-        <div id="text10" class="en" style="left: 30mm;top:48mm">Grade:</div>
-        <div id="data_grade" class="data" style="left: 52mm;top:40mm;width: 82mm;font-family: SimHei;font-size: 42pt !important;">{{data.grade}}</div>
+        <div id="text04" class="cn" style="left: 14mm;top:42mm">等级</div>
+        <div id="text10" class="en" style="left: 32mm;top:45mm">Grade:</div>
+        <div id="data_grade" class="data" style="left: 54mm;top:36mm;width: 90mm;font-family: SimHei;font-size: 42pt !important;">{{data.grade}}</div>
 
-        <div id="text05" class="cn" style="left: 10mm;top:70mm">净重</div>
-        <div id="text11" class="en" style="left: 30mm;top:73mm">Weight:</div>
-        <div id="data_weight" class="data" style="left: 52mm;top:66mm;width: 82mm;font-family: Arial;font-size: 48pt !important;">{{data.weight.toFixed(1)}}</div>
-        <div id="text17" class="en" style="left: 138mm;top:73mm">kg</div>
+        <div id="text05" class="cn" style="left: 14mm;top:62mm">净重</div>
+        <div id="text11" class="en" style="left: 32mm;top:64mm">Weight:</div>
+        <div id="data_weight" class="data" style="left: 56mm;top:56mm;width: 90mm;font-family: Arial;font-size: 48pt !important;">{{data.weight.toFixed(1)}}</div>
+        <div id="text17" class="en" style="left: 148mm;top:64mm">kg</div>
 
-        <div id="text06" class="cn" style="left: 10mm;top:95mm">批号</div>
-        <div id="text12" class="en" style="left: 30mm;top:98mm">Lot No.:</div>
-        <div id="data_lotNo" class="data" style="left: 52mm;top:86mm;width: 82mm;font-family: Arial;font-size: 68pt !important;line-height: 18mm">{{data.lotNo}}</div>
+        <div id="text06" class="cn" style="left: 14mm;top:88mm">批号</div>
+        <div id="text12" class="en" style="left: 32mm;top:90mm">Lot No.:</div>
+        <div id="data_lotNo" class="data" style="left: 56mm;top:78mm;width: 90mm;font-family: Arial;font-size: 68pt !important;line-height: 18mm">{{data.lotNo}}</div>
 
-        <div id="text07" class="cn" style="left: 10mm;top:120mm">包号</div>
-        <div id="text13" class="en" style="left: 28mm;top:123mm">Bale No.:</div>
-        <div id="data_baleNo" class="data" style="left: 52mm;top:112mm;width: 82mm;font-family: Arial;font-size: 68pt !important;line-height: 18mm">{{data.baleNo}}</div>
+        <div id="text07" class="cn" style="left: 14mm;top:114mm">包号</div>
+        <div id="text13" class="en" style="left: 32mm;top:116mm">Bale No.:</div>
+        <div id="data_baleNo" class="data" style="left: 58mm;top:104mm;width: 89mm;font-family: Arial;font-size: 68pt !important;line-height: 18mm">{{data.baleNo}}</div>
 
-        <div id="text08" class="cn" style="left: 10mm;top:140mm">执行标准</div>
-        <div id="text14" class="en" style="left: 46mm;top:142mm">Executive Standard:GB/T14463-2008</div>
+        <div id="text08" class="cn" style="left: 14mm;top:132mm">执行标准</div>
+        <div id="text14" class="en" style="left: 50mm;top:134mm">Executive Standard:GB/T 14463-2008</div>
 
 
         <!--<div id="data_moistureRegain" class="data" style="left: 20mm;top:40mm">{{data.moistureRegain}}</div>-->
