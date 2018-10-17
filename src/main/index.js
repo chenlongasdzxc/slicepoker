@@ -83,8 +83,11 @@ ipcMain.on('getPrinters', (event, arg) => {
 
 let canPrint = true;
 
+
+
 ipcMain.on('printPage', (event, arg) => {
     console.log(event);
+
     if(canPrint){
     contents.print({silent: true, printBackground: true, deviceName: arg}, () => {
         event.sender.send('printPage-reply', contents.getPrinters());

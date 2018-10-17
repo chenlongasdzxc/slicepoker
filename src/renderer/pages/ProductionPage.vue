@@ -268,13 +268,13 @@
                     nextBaleNo: null,
                 },
                 printerTemplates: [
+                    {name:'涡流纺专用标签',path:'/printer/p4'},
+                    {name:'常规标签',path:'/printer/p5'},
+                    {name:'外销标签',path:'/printer/p6'},
+                    {name:'17版大标签',path:'/printer/p7'},
                     {name:'模板一',path:'/printer/p1'},
                     {name:'模板二',path:'/printer/p2'},
                     {name:'模板三',path:'/printer/p3'},
-                    {name:'模板四',path:'/printer/p4'},
-                    {name:'模板五',path:'/printer/p5'},
-                    {name:'模板六',path:'/printer/p6'},
-                    {name:'模板七',path:'/printer/p7'},
                 ],
                 form: {
                     data: {
