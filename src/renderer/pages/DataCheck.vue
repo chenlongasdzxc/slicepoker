@@ -1,42 +1,48 @@
 <template>
     <v-container grid-list-md>
         <v-card class="cardsearch">
-            <span>选择时间：</span>
-            <el-date-picker
-                    v-model="valuetime"
-                    type="datetimerange"
-                    align="right"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    size="mini"
-            ></el-date-picker>
-            <span>选择批号范围:</span>
-            <el-input
-                    v-model="forms.lotNoStart"
-                    size="mini"
-                    class="lotNo"
-            ></el-input>
-            <span>至</span>
-            <el-input
-                    v-model="forms.lotNoEnd"
-                    size="mini"
-                    class="lotNo"
-            ></el-input>
-            <el-button @click="show"
-                       type="primary"
-                       icon="el-icon-search"
-                       size="mini"
-                       :disabled="!canSearch"
-            >搜索
-            </el-button>
-            <el-button
-                    @click="downloadExcel"
-                    type="primary"
-                    size="mini"
-                    icon="el-icon-download"
-            >下载数据
-            </el-button>
+            <el-form :model="forms" :rules="rules1" ref="forms" :inline="true" style="margin-left: 30px;align-content: center;padding-top: 20px">
+                <el-form-item
+                        label="时间范围："
+                >
+                    <el-date-picker
+                            v-model="valuetime"
+                            type="datetimerange"
+                            align="right"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            size="medium"
+                            class="date1"
+                            style="width: 400px"
+                    ></el-date-picker>
+                </el-form-item>
+                <el-form-item
+                        label="批号范围："
+                        prop="lotNoStart"
+                >
+                    <el-input
+                            v-model.number="forms.lotNoStart"
+                            size="medium"
+                            class="lotNo"
+                            type="lotNoStart"
+                            style="width: 170px"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item
+                        label="至"
+                        prop="lotNoEnd"
+                >
+                    <el-input
+                            v-model.number="forms.lotNoEnd"
+                            size="medium"
+                            class="lotNo"
+                            style="width: 170px"
+                    ></el-input>
+                </el-form-item>
+            </el-form>
+
+
 
         </v-card>
         <v-layout align-space-around row fill-height>
@@ -45,8 +51,27 @@
 
                 <v-card>
                     <v-card-title class="headline">
-                        数据查看
-                        <!--<a href="http://171.221.202.43:34001/excel">下载导出Excel</a>-->
+                        <div style="display: flex;width: 100%">
+                           <div style="flex: 1">  数据查看
+                           </div>
+
+                            <el-button @click="show"
+                                       type="primary"
+                                       icon="el-icon-search"
+                                       size="medium"
+                                       :disabled="!canSearch"
+                            >搜索
+                            </el-button>
+                            <el-button
+                                    @click="downloadExcel"
+                                    type="primary"
+                                    size="medium"
+                                    icon="el-icon-download"
+                                    :disabled="!canSearch"
+                            >下载数据
+                            </el-button>
+                        </div>
+
                     </v-card-title>
                     <v-divider>
                     </v-divider>
@@ -89,8 +114,25 @@
 
     export default {
         data() {
-            return {
+            var checklot = (rule, value, callback) => {
+                this.canSearch = true;
+                if (!value||value === ""){
+                    callback();
+                }else if (!Number.isInteger(value)) {
+                        callback(new Error('请输入整数'));
+                        this.canSearch = false;
 
+                }
+            }
+            return {
+                rules1: {
+                    lotNoStart: [
+                        {validator: checklot,trigger: 'blur'}
+                    ],
+                    lotNoEnd:[
+                        {validator: checklot,trigger: 'blur'}
+                    ],
+                },
                 headers: [
                     {text: '序号', value: 'id'},
                     {text: '规格dtex', value: 'specDtex'},
@@ -106,6 +148,8 @@
                 forms: {
                     lotNoStart: '',
                     lotNoEnd: '',
+                    /*createdDateStart: '',
+                    createdDateEnd: '',*/
                 },
 
                 params: {
@@ -131,14 +175,14 @@
                     sortBy: "id",
                     totalItems: 1
                 },
-                canSearch:false,
+                canSearch: false,
             }
         },
-        mounted(){
-            const that =this;
-            setTimeout(()=>{
+        mounted() {
+            const that = this;
+            setTimeout(() => {
                 that.canSearch = true;
-            },1000);
+            }, 1000);
         },
         watch: {
             valuetime(val) {
@@ -149,8 +193,9 @@
                 console.log(this.params.createdDateEnd);
             },
 
+
             pagination() {
-                if(this.canSearch) {
+                if (this.canSearch) {
                     this.getDataFromApi()
                         .then(data => {
                             this.form = data.items
@@ -163,10 +208,12 @@
 
         methods: {
 
+
+
             getDataFromApi() {
                 /*let url = 'http://171.221.202.43:34001/packData';*/
-                let url = 'http://localhost:34001/pageList';
-                /*let url = 'http://171.221.202.43:34001/packData';*/
+               /* let url = 'http://localhost:34001/pageList';*/
+                let url = 'http://171.221.202.43:34001/pageList';
                 const that = this;
                 return new Promise((resolve, reject) => {
                     const {sortBy, descending, page, rowsPerPage} = this.pagination
@@ -202,8 +249,8 @@
             },
 
             downloadExcel() {
-                /*let urls = 'http://171.221.202.43:34001/excel';*/
-                let urls = 'http://localhost:34001/excel'
+                let urls = 'http://171.221.202.43:34001/excel';
+                /*let urls = 'http://localhost:34001/excel'*/
                 let dateInfo = 'createdDateStart=' + this.params.createdDateStart + '&createdDateEnd=' + this.params.createdDateEnd
                 let lotNoInfo = '&lotNoStart=' + this.forms.lotNoStart + '&lotNoEnd=' + this.forms.lotNoEnd
                 /* console.log(urls+'?'+dateInfo+lotNoInfo);*/
@@ -218,8 +265,7 @@
 </script>
 
 <style>
-    .lotNo {
-        width: 10%;
-    }
-
+.showbutton{
+    margin-left: 65%;
+}
 </style>
