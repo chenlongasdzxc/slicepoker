@@ -56,46 +56,8 @@ app.on('activate', () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
-/*
-import { autoUpdater } from 'electron-updater'
-
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
-
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
- */
-
-ipcMain.on('min', e => mainWindow.minimize());
-ipcMain.on('max', e => {
-    if (mainWindow.isMaximized()) {
-        mainWindow.unmaximize()
-    } else {
-        mainWindow.maximize()
-    }
-});
-ipcMain.on('close', e => mainWindow.close());
-ipcMain.on('getPrinters', (event, arg) => {
-    event.sender.send('getPrinters-reply', contents.getPrinters())//在main process里向web page发出message
-});
-
-let canPrint = true;
 
 
 
-ipcMain.on('printPage', (event, arg) => {
-    console.log(event);
 
-    if(canPrint){
-    contents.print({silent: true, printBackground: true, deviceName: arg}, () => {
-        event.sender.send('printPage-reply', contents.getPrinters());
-        canPrint = false;
-        setTimeout(()=>{
-            canPrint = true;
-        },1000);
-    });
-    }
-});
 

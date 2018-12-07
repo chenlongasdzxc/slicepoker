@@ -1,7 +1,7 @@
 {
-  "name": "spic3",
-  "version": "0.1.7",
-  "author": "小米 <744471805@qq.com>",
+  "name": "slice",
+  "version": "0.1.1",
+  "author": "slicepoker <913284827@qq.com>",
   "description": "An electron-vue project",
   "repository": "Air6211332/spic3",
   "license": null,
@@ -20,8 +20,8 @@
     "install": "electron-rebuild"
   },
   "build": {
-    "productName": "spic3",
-    "appId": "com.scxys.spic3",
+    "productName": "slice",
+    "appId": "com.zps.slice",
     "directories": {
       "output": "build"
     },
